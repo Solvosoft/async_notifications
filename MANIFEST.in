@@ -1,0 +1,6 @@
+include README.rst
+include LICENSE
+graft crdist/templates
+graft crdist/static
+graft crdist/locale
+graft crdist/fixtures

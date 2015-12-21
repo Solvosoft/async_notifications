@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'email_send.wsgi.application'
+WSGI_APPLICATION = 'demo.wsgi.application'
 
 
 # Database
@@ -138,5 +138,5 @@ CELERYBEAT_SCHEDULE = {
 
 DEFAULT_FROM_EMAIL="mail@example.com"
 EMAIL_HOST="localhost"
-EMAIL_HOST_PASSWORD="1025"
+EMAIL_PORT="1025"
 

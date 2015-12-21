@@ -40,7 +40,7 @@ setup(
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     install_requires=[
-        'setuptools',
+        'celery>=3.1',
         'django>=1.7',
     ],
     packages=find_packages(),
