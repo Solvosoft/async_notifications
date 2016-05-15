@@ -32,7 +32,7 @@ class EmailNotification(models.Model):
 
 @python_2_unicode_compatible
 class EmailTemplate(models.Model):
-    code = models.CharField(max_length=20, verbose_name=_("Code"))
+    code = models.CharField(max_length=50, verbose_name=_("Code"))
     subject = models.CharField(max_length=500, verbose_name=_("Subject"))
     message = models.TextField(verbose_name=_("Message"))
 
