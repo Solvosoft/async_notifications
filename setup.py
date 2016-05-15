@@ -43,7 +43,7 @@ setup(
         'celery>=3.1',
         'django>=1.7',
     ],
-    packages=find_packages(),
+    packages=find_packages(exclude=["demo"]),
     include_package_data=True,
     zip_safe=False
 )

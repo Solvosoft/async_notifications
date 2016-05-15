@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: async_notification\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-21 10:15-0600\n"
-"PO-Revision-Date: 2015-12-21 10:20-0600\n"
+"POT-Creation-Date: 2016-05-14 20:34-0600\n"
+"PO-Revision-Date: 2016-05-14 20:38-0600\n"
 "Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
 "Language-Team: ES <info@solvosoft.com>\n"
 "Language: es\n"
@@ -16,61 +16,77 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:34
+#: async_notifications/admin.py:34
 msgid "Send email now"
 msgstr "Enviar correo ahora"
 
-#: apps.py:7
+#: async_notifications/apps.py:7
 msgid "Email Notification"
 msgstr "Notificación por correo"
 
-#: models.py:11 models.py:34
+#: async_notifications/models.py:11 async_notifications/models.py:36
 msgid "Subject"
 msgstr "Sujeto"
 
-#: models.py:12 models.py:35
+#: async_notifications/models.py:12 async_notifications/models.py:37
 msgid "Message"
 msgstr "Mensaje"
 
-#: models.py:14
+#: async_notifications/models.py:14
 msgid "Recipient list"
 msgstr "Lista de recibo"
 
-#: models.py:16
+#: async_notifications/models.py:16
 msgid "Enqueued"
 msgstr "Encolado"
 
-#: models.py:18
+#: async_notifications/models.py:18
 msgid "User"
 msgstr "Usuario"
 
-#: models.py:19
+#: async_notifications/models.py:19
 msgid "Sended"
 msgstr "Enviado"
 
-#: models.py:21
+#: async_notifications/models.py:21
 msgid "File"
 msgstr "Archivo"
 
-#: models.py:22
+#: async_notifications/models.py:22
 msgid "Problems"
 msgstr "Problemas"
 
-#: models.py:24
+#: async_notifications/models.py:24
 msgid "Create datetime"
 msgstr "Fecha de creación"
 
-#: models.py:27
+#: async_notifications/models.py:27
 msgid "sended"
 msgstr "enviado"
 
-#: models.py:27
+#: async_notifications/models.py:27
 msgid "Not sended"
 msgstr "No enviado"
 
-#: models.py:33
+#: async_notifications/models.py:30
+msgid "Email notification"
+msgstr "Notificación por correo"
+
+#: async_notifications/models.py:31
+msgid "Email notifications"
+msgstr "Notificaciones por correo"
+
+#: async_notifications/models.py:35
 msgid "Code"
 msgstr "Código"
+
+#: async_notifications/models.py:43
+msgid "Email template"
+msgstr "Plantilla de correo"
+
+#: async_notifications/models.py:44
+msgid "Email templates"
+msgstr "Plantillas de correo"

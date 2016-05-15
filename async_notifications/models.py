@@ -26,7 +26,9 @@ class EmailNotification(models.Model):
     def __str__(self):
         return "(%s) %s" % (_("sended") if self.sended else _("Not sended"),
                             self.subject)
-
+    class Meta:
+        verbose_name = _("Email notification")
+        verbose_name_plural = _("Email notifications")
 
 @python_2_unicode_compatible
 class EmailTemplate(models.Model):
@@ -36,3 +38,7 @@ class EmailTemplate(models.Model):
 
     def __str__(self):
         return "(%s) %s" % (self.code, self.subject)
+
+    class Meta:
+        verbose_name = _("Email template")
+        verbose_name_plural = _("Email templates")
