@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: djcms_async_notifications\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-27 02:42-0600\n"
+"PO-Revision-Date: 2016-09-27 02:43-0600\n"
+"Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
+"Language-Team: ES <ES@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: cms_toolbars.py:33
+msgid "Email"
+msgstr "Correo"
+
+#: cms_toolbars.py:47
+msgid "Write email"
+msgstr "Escribir correo"
+
+#: cms_toolbars.py:52
+msgid "Email list"
+msgstr "Lista de correo"
+
+#: cms_toolbars.py:59
+msgid "Email template list"
+msgstr "Lista de plantillas de correo"
+
+#: cms_toolbars.py:64
+msgid "Write template email"
+msgstr "Escribir plantilla de correo"
+
+#: forms.py:20
+msgid "Template"
+msgstr "Plantilla"
+
+#: forms.py:21
+msgid "Recipient list"
+msgstr "Lista de recibo"
+
+#: forms.py:23
+msgid "Extra message"
+msgstr "Mensaje extra"
+
+#: templates/djcms_async_notifications/page_email.html:17
+msgid "Send this page by email"
+msgstr "Enviar esta página por correo"
+
+#: templates/djcms_async_notifications/page_email.html:24
+msgid "Close"
+msgstr "Cerrar"
+
+#: templates/djcms_async_notifications/page_email.html:25
+msgid "Send email"
+msgstr "Enviar correo"
+
+#: views.py:15
+msgid "Article url"
+msgstr "Url de articulo"
+
+#: views.py:17
+msgid ""
+"Article object [title, lead_in,                              content, "
+"author, owner, publishing_date,                              is_published, "
+"is_featured ]"
+msgstr ""
+"Objeto artículo [title, lead_in,                              content, "
+"author, owner, publishing_date,                              is_published, "
+"is_featured ]"
+
+#: views.py:20
+msgid "User extra message"
+msgstr "Mensaje extra"
+
+#: views.py:21
+msgid "Sender user"
+msgstr "Usuario enviante"
+
+#: views.py:53
+msgid "<div id=\"div_success\">Email sent successfully</div>"
+msgstr "<div id=\"div_success\">Correo enviado satisfactoriamente</div>"

@@ -1,6 +1,9 @@
 include README.rst
 include LICENSE
+include requirements.txt
 graft async_notifications/templates
 graft async_notifications/static
 graft async_notifications/locale
-
+graft async_notifications/djcms_async_notifications/templates
+graft async_notifications/djcms_async_notifications/static
+graft async_notifications/djcms_async_notifications/locale

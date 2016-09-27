@@ -13,6 +13,7 @@ Features
 - User filter email
 - Template system with template context
 - Send to User, Group or external email
+- Django cms integration (djcms_async_notifications) and standalone.
 
 Installation
 =============
@@ -62,7 +63,7 @@ Installation
 Runing the project
 ===================
 
-You need to fun 3 subsystems for run this app so you need 3 xterm, for this explanation I will use the demo project
+You need to run 3 subsystems for run this app so you need 3 xterm, for this explanation I will use the demo project
 
 1. Run smtp debug client
 

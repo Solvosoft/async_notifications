@@ -10,11 +10,12 @@ from __future__ import unicode_literals
 from django import forms
 from .models import EmailNotification
 from .widgets import EmailLookup
+from django.utils.translation import ugettext_lazy as _
 #from ajax_select.fields import AutoCompleteSelectMultipleField
 
 
 class NotificationForm(forms.ModelForm):
-    recipient = EmailLookup('emails')
+    recipient = EmailLookup('emails', label=_('Recipient list'))
 
     class Meta:
         model = EmailNotification
