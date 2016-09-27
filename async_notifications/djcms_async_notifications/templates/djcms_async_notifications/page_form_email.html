@@ -1,0 +1,9 @@
+<div class="modal-body" style="max-width: 400px">
+<form method="POST">
+<table>
+{% csrf_token %}
+	{{form}}
+{{form.media}}
+</table>
+</form>
+</div>

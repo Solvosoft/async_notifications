@@ -12,6 +12,7 @@ Features
 - Problems notification
 - User filter email
 - Template system with template context
+- Send to User, Group or external email
 
 Installation
 =============

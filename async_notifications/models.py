@@ -26,9 +26,11 @@ class EmailNotification(models.Model):
     def __str__(self):
         return "(%s) %s" % (_("sended") if self.sended else _("Not sended"),
                             self.subject)
+
     class Meta:
         verbose_name = _("Email notification")
         verbose_name_plural = _("Email notifications")
+
 
 @python_2_unicode_compatible
 class EmailTemplate(models.Model):
@@ -42,3 +44,13 @@ class EmailTemplate(models.Model):
     class Meta:
         verbose_name = _("Email template")
         verbose_name_plural = _("Email templates")
+
+
+@python_2_unicode_compatible
+class TemplateContext(models.Model):
+    code = models.CharField(max_length=50, verbose_name=_("Code"))
+    context_dic = models.TextField(verbose_name=_("Context dictionary"))
+
+    class Meta:
+        verbose_name = _("Context of template")
+        verbose_name_plural = _("Context of template")

@@ -1,0 +1,49 @@
+{% load i18n %}
+
+<button type="button" class="btn btn-default" 
+aria-label="Left Align"  data-toggle="modal" data-target="#email_modal">
+  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+</button>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="email_modal" tabindex="-1" role="dialog" aria-labelledby="email_modalLabel">
+
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="email_modalLabel">{% trans 'Send this page by email' %}</h4>
+      </div>
+      <iframe id="iemail_frame" class="modal-body" frameborder=0
+      style="width: 100%; height: 350px" 
+      src="{% url 'get_email_modal' %}?uri={{uri}}&name={{name}}&pk={{pk}}"></iframe>
+	 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+        <button type="button"  id="iemail_form_submit" class="btn btn-success">{% trans 'Send email' %}</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<style>#email_modal{  top: 35px;}</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event){
+	document.last_url_iframe = window.frames['iemail_frame'].src;
+	$("#iemail_form_submit").on("click", function(){
+		$("#iemail_frame").contents().find("form").submit();
+	});
+	$("#iemail_frame").load(function(event){
+		var is_success =  $("#iemail_frame").contents().find("#div_success");
+		if(is_success.length>0){
+			$("#email_modal").modal('hide');
+			window.frames['iemail_frame'].src=document.last_url_iframe;
+		}
+	});
+});
+</script>
