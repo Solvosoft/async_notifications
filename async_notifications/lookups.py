@@ -47,7 +47,6 @@ def get_filters(filters, q):
 
 
 def get_display(obj, name):
-    print("display: ", name)
     if "__" in name:
         names = name.split("__")
         objs = getattr(obj, names[0])

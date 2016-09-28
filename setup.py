@@ -42,7 +42,7 @@ setup(
     install_requires=[
         'celery>=3.1',
         'django>=1.7',
-		'django-ajax-selects==1.5.0',
+	'django-ajax-selects==1.5.0',
     ],
     packages=find_packages(exclude=["demo"]),
     include_package_data=True,
