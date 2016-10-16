@@ -22,22 +22,25 @@ def update_template_context(code, view_name,  context):
 
     """
     ncode = "%s.%s" % (code, view_name)
-    if ncode not in codes:
-        temp_context, created = TemplateContext.objects.get_or_create(
-            code=code)
-        try:
-            EmailTemplate.objects.get(code=code)
-        except:
-            EmailTemplate.objects.create(
-                code=code, subject=view_name, message=" ")
+    try:  # fail ok if no migrations first python manage.py migrate
+        if ncode not in codes:
+            temp_context, created = TemplateContext.objects.get_or_create(
+                code=code)
+            try:
+                EmailTemplate.objects.get(code=code)
+            except:
+                EmailTemplate.objects.create(
+                    code=code, subject=view_name, message=" ")
 
-        if temp_context.context_dic:
-            context_dic = json.loads(temp_context.context_dic)
-        else:
-            context_dic = {}
+            if temp_context.context_dic:
+                context_dic = json.loads(temp_context.context_dic)
+            else:
+                context_dic = {}
 
-        if view_name not in context_dic:
-            context_dic[view_name] = context
-            temp_context.context_dic = json.dumps(context_dic)
-            temp_context.save()
-            codes.append("%s.%s" % (code, view_name))
+            if view_name not in context_dic:
+                context_dic[view_name] = context
+                temp_context.context_dic = json.dumps(context_dic)
+                temp_context.save()
+                codes.append("%s.%s" % (code, view_name))
+    except:
+        pass

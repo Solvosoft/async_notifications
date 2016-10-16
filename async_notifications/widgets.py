@@ -21,7 +21,6 @@ class EmailLookupWidget(AutoCompleteSelectMultipleWidget):
     def value_from_datadict(self, data, files, name):
         # eg. 'members': ['|229|4688|190|']
         # backward compatibility ['1,3,4']
-        print("DATA", data)
         ids = data.get(name, '')
         if "," in ids:
             return [val for val in ids.split(',') if val]
