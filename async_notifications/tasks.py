@@ -1,20 +1,21 @@
 # encoding: utf-8
-from __future__ import unicode_literals
-
 '''
 Created on 20/12/2015
 
 @author: luisza
 '''
 
-from .models import EmailNotification
-from django.core import mail
-from django.conf import settings
-from .mail_utils import get_all_emails
-
-from .settings import MAX_PER_MAIL
+from __future__ import unicode_literals
 
 import importlib
+
+from django.conf import settings
+from django.core import mail
+
+from .mail_utils import get_all_emails
+from .models import EmailNotification
+from .settings import MAX_PER_MAIL
+
 
 app = importlib.import_module(settings.CELERY_MODULE).app
 
@@ -57,6 +58,7 @@ def send_email(obj):
             return
 
     mails = get_all_emails(obj.recipient)
+    print("CALC MAILS ", mails)
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]

@@ -7,8 +7,11 @@ Free as freedom will be 26/9/2016
 '''
 
 from __future__ import unicode_literals
-from django.conf import settings
+
 import importlib
+
+from django.conf import settings
+
 
 NOTIFICATION_GROUP_MODEL = getattr(
     settings, 'ASYNC_NOTIFICATION_GROUP', 'auth.Group')
@@ -30,7 +33,8 @@ USER_LOOKUP_FIELDS = getattr(
      'display': 'username',
      'filter': ['username__icontains',
                 'first_name__icontains',
-                'last_name__icontains']})
+                'last_name__icontains'],
+     'group_lookup': 'groups__name'})
 
 
 MAX_PER_MAIL = getattr(settings, 'ASYNC_NOTIFICATION_MAX_PER_MAIL', 40)

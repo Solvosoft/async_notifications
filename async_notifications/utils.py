@@ -61,7 +61,6 @@ def extract_emails(text):
         mail_list = text
 
     emails = [unhexify(x.strip()) for x in mail_list]
-
     return emails
 
 

@@ -91,7 +91,7 @@ class NotificationEmailLookup(LookupChannel):
 
     def find_group(self, email):
         name = email.replace("@group", "").replace("__", " ")
-        fields = get_filters(GROUP_LOOKUP_FIELDS, q)
+        fields = get_filters(GROUP_LOOKUP_FIELDS, name)
         g = Group.objects.filter(fields)
         if len(g):
             g = g[0]
