@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: async_notification\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-27 02:42-0600\n"
-"PO-Revision-Date: 2016-09-27 02:33-0600\n"
+"PO-Revision-Date: 2016-11-10 14:45-0600\n"
 "Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
 "Language-Team: ES <info@solvosoft.com>\n"
 "Language: es\n"
@@ -53,7 +53,7 @@ msgstr "Usuario externo"
 
 #: models.py:11 models.py:38
 msgid "Subject"
-msgstr "Sujeto"
+msgstr "Asunto"
 
 #: models.py:12 models.py:39
 msgid "Message"
@@ -113,7 +113,7 @@ msgstr "Plantillas de correo"
 
 #: models.py:52
 msgid "Context dictionary"
-msgstr "diccionario de contexto"
+msgstr "Diccionario de contexto"
 
 #: models.py:55 models.py:56
 msgid "Context of template"

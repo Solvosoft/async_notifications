@@ -58,7 +58,6 @@ def send_email(obj):
             return
 
     mails = get_all_emails(obj.recipient)
-    print("CALC MAILS ", mails)
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]
