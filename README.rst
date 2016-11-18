@@ -14,6 +14,9 @@ Features
 - Template system with template context
 - Send to User, Group or external email
 - Django cms integration (djcms_async_notifications) and standalone.
+- Custom text area widget support
+- Allow send group mail list if it's defined.
+
 
 Installation
 =============
@@ -82,3 +85,105 @@ You need to run 3 subsystems for run this app so you need 3 xterm, for this expl
     .. code:: bash
     
         $ python manage.py runserver
+
+Usage
+=========
+
+Report your context template 
+
+.. code:: python
+
+    from async_notifications.register import update_template_context
+    context = [
+        ('fieldname', 'Field description'),
+        ('fieldname2', 'Field description'),
+        ...
+    ]
+    update_template_context("yourcode",  'your email subject', context )
+
+Context is list of tuples with the fields available in the template context, this context is add in the same file 
+that have `send_email_from_template`
+
+
+Send an email :) 
+
+.. code:: python
+
+    send_email_from_template(code, recipient,
+                             context={},
+                             enqueued=True,
+                             user=None,
+                             upfile=None)
+
+Params description:
+
+- `recipient` is a list of emails
+- `code` is the same code register in update_template_context
+- `enqueued`  if **False** send the email immediately else enqueued to be sended when send email task run.
+- `user` user how send email
+- `upfile` attached file in email
+
+Other optional options 
+========================
+
+Django cms integration
+-------------------------
+
+This configuration could help you to integrate with Django CMS.
+
+include in your `INSTALLED_APPS`:
+
+.. code:: python
+
+    INSTALLED_APPS = [
+        ...
+      'async_notifications',
+      'async_notifications.djcms_async_notifications',
+    ]
+
+Configure how models and field async_notifications will use, ej. aldryn_people
+
+.. code:: python
+
+    ASYNC_NOTIFICATION_GROUP = 'aldryn_people.Group'
+    ASYNC_NOTIFICATION_GROUP_LOOKUP_FIELDS = {
+        'order_by': 'translations__name',
+        'email': 'email',
+        'group_lookup': 'translations__name',
+        'display': 'name',
+        'filter': ['translations__name__icontains']}
+
+
+    ASYNC_NOTIFICATION_USER = 'aldryn_people.Person'
+
+    ASYNC_NOTIFICATION_USER_LOOKUP_FIELDS = {
+        'order_by': 'translations__name',
+        'display': 'name',
+        'filter': [
+            'user__first_name__icontains',
+            'user__last_name__icontains',
+            'translations__name__icontains'],
+        'group_lookup': 'groups__translations__name'}
+
+.. note:: Django auth is used by default
+
+cmsplugin-contact-plus
+-------------------------
+
+CONTACT_PLUS_SEND_METHOD = 'async_notifications.djcms_async_notifications.contact_plus.send_email'
+ASYNC_NOTIFICATION_CONTACT_PLUS_EMAIL = 'email'
+
+.. note:: 
+
+    This requires special cmsplugin-contact-plus version, we send a PRs, but is not merged yet.
+
+Default text area widget
+--------------------------
+
+For example using ckeditor widget
+
+ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
+
+.. note:: 
+    See how to configure `CKEditor <https://github.com/django-ckeditor/django-ckeditor>`_ .
+

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: async_notification\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-27 02:42-0600\n"
-"PO-Revision-Date: 2016-11-10 14:45-0600\n"
+"POT-Creation-Date: 2016-11-18 11:33-0600\n"
+"PO-Revision-Date: 2016-11-18 11:34-0600\n"
 "Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
 "Language-Team: ES <info@solvosoft.com>\n"
 "Language: es\n"
@@ -19,19 +19,31 @@ msgstr ""
 "X-Generator: Poedit 1.6.10\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:53
+#: admin.py:16 models.py:18
+msgid "User"
+msgstr "Usuario"
+
+#: admin.py:21
+msgid "All mails"
+msgstr "Todos los correos"
+
+#: admin.py:22
+msgid "My mails"
+msgstr "Mis correos"
+
+#: admin.py:77
 msgid "Send email now"
 msgstr "Enviar correo ahora"
 
-#: admin.py:58
+#: admin.py:82
 msgid " and more"
 msgstr "y más"
 
-#: admin.py:60
+#: admin.py:84
 msgid "Recipients"
 msgstr "Lista de recibo"
 
-#: admin.py:86
+#: admin.py:110
 msgid "Template context"
 msgstr "Contexto de plantilla"
 
@@ -43,11 +55,11 @@ msgstr "Notificación por correo"
 msgid "Recipient list"
 msgstr "Lista de recibo"
 
-#: lookups.py:110
+#: lookups.py:109
 msgid "Add external email"
 msgstr "Agregar correo externo"
 
-#: lookups.py:125
+#: lookups.py:124
 msgid "External user"
 msgstr "Usuario externo"
 
@@ -62,10 +74,6 @@ msgstr "Mensaje"
 #: models.py:16
 msgid "Enqueued"
 msgstr "Encolado"
-
-#: models.py:18
-msgid "User"
-msgstr "Usuario"
 
 #: models.py:19
 msgid "Sended"
@@ -118,9 +126,6 @@ msgstr "Diccionario de contexto"
 #: models.py:55 models.py:56
 msgid "Context of template"
 msgstr "Contexto de la plantilla"
-
-#~ msgid "Email"
-#~ msgstr "Correo electrónico"
 
 #~ msgid "Write email"
 #~ msgstr "Escribir correo"
