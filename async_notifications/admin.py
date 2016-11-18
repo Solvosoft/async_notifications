@@ -1,20 +1,19 @@
 from django.contrib import admin
+from django.db import models
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
+import json
+
+from async_notifications.tasks import send_email
+
+from .forms import NotificationForm
+from .models import EmailNotification, EmailTemplate, TemplateContext
+from .settings import TEXT_AREA_WIDGET
+from .utils import extract_emails
+
 
 # Register your models here.
-from .models import EmailNotification, EmailTemplate, TemplateContext
-from async_notifications.tasks import send_email
-from django.utils.translation import ugettext_lazy as _
-from .forms import NotificationForm
-from .utils import extract_emails
-import json
-from django.utils.safestring import mark_safe
-
-from django.db import models
 #from ckeditor.widgets import CKEditorWidget
-
-from .settings import TEXT_AREA_WIDGET
-
-
 class MyNotification(admin.ModelAdmin):
 
     formfield_overrides = {
@@ -41,7 +40,9 @@ class MyNotification(admin.ModelAdmin):
 
     def get_queryset(self, request):
         query = super(MyNotification, self).get_queryset(request)
-        return query.filter(user=request.user)
+        if not request.user.is_superuser:
+            query = query.filter(user=request.user)
+        return query
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
