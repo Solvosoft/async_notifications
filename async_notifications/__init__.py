@@ -8,7 +8,7 @@ import datetime
 import os
 import subprocess
 
-VERSION = (0, 0, 8, 'final', 0)
+VERSION = (0, 0, 9, 'final', 0)
 
 
 def get_version(version=None):
@@ -62,5 +62,3 @@ def get_git_changeset():
         return None
 
     return timestamp.strftime('%Y%m%d%H%M%S')
-
-

@@ -8,9 +8,8 @@ Free as freedom will be 26/9/2016
 
 from __future__ import unicode_literals
 
-import importlib
-
 from django.conf import settings
+import importlib
 
 
 NOTIFICATION_GROUP_MODEL = getattr(
@@ -19,7 +18,9 @@ NOTIFICATION_GROUP_MODEL = getattr(
 GROUP_LOOKUP_FIELDS = getattr(
     settings, 'ASYNC_NOTIFICATION_GROUP_LOOKUP_FIELDS',
     {'order_by': 'name',
+     'email': None,
      'display': 'name',
+     'group_lookup': 'name',
      'filter': ['name__icontains']})
 
 
