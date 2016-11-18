@@ -32,9 +32,8 @@ Installation
 #. It's really important set *CELERY_MODULE* pointing to your project celery file, because it's needed for assing task to the current project, and configure some default celery options
 
     .. code:: python
- 
- 		from __future__ import absolute_import
- 		   
+
+        from __future__ import absolute_import
         CELERY_MODULE = "demo.celery"
         CELERY_TIMEZONE = TIME_ZONE
         CELERY_ACCEPT_CONTENT = ['pickle', 'json']
@@ -100,6 +99,8 @@ Report your context template
         ...
     ]
     update_template_context("yourcode",  'your email subject', context )
+
+This automátically create a Email template if not found. 
 
 Context is list of tuples with the fields available in the template context, this context is add in the same file 
 that have `send_email_from_template`
