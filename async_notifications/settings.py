@@ -46,3 +46,6 @@ TEXT_AREA_WIDGET_TXT = getattr(settings, 'ASYNC_NOTIFICATION_TEXT_AREA_WIDGET',
 
 module_name, class_name = TEXT_AREA_WIDGET_TXT.rsplit(".", 1)
 TEXT_AREA_WIDGET = getattr(importlib.import_module(module_name), class_name)
+
+CONTACT_PLUS_EMAIL = getattr(
+    settings, 'ASYNC_NOTIFICATION_CONTACT_PLUS_EMAIL', 'email')

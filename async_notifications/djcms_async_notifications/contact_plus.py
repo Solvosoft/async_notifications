@@ -7,7 +7,9 @@ Created on 18/11/2016
 @author: luisza
 '''
 from __future__ import unicode_literals
+
 from async_notifications.register import update_template_context
+from async_notifications.settings import CONTACT_PLUS_EMAIL
 from async_notifications.utils import send_email_from_template
 
 
@@ -39,6 +41,6 @@ def send_email(**kwargs):
                              enqueued=True)
 
     send_email_from_template("sitetouser_" + context_name,
-                             kwargs['to'],
+                             kwargs['context']['data'][CONTACT_PLUS_EMAIL],
                              context=kwargs,
                              enqueued=True)

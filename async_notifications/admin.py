@@ -12,8 +12,25 @@ from .settings import TEXT_AREA_WIDGET
 from .utils import extract_emails
 
 
+class UserAdminListFilter(admin.SimpleListFilter):
+    title = _('User')
+    parameter_name = 'userf'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('0', _('All mails')),
+            ('1', _('My mails')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '1':
+            return queryset.filter(user=request.user)
+        return queryset
+
 # Register your models here.
 #from ckeditor.widgets import CKEditorWidget
+
+
 class MyNotification(admin.ModelAdmin):
 
     formfield_overrides = {
@@ -43,6 +60,12 @@ class MyNotification(admin.ModelAdmin):
         if not request.user.is_superuser:
             query = query.filter(user=request.user)
         return query
+
+    def get_list_filter(self, request):
+        filter = super(MyNotification, self).get_list_filter(request)
+        if request.user.is_superuser:
+            return [UserAdminListFilter]
+        return filter
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
