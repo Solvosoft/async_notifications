@@ -28,7 +28,7 @@ Installation
         $ pip install async_notifications
 
 
-#. Insert *async_notifications* in your settings *INSTALLED_APPS*
+#. Insert *async_notifications* and *ajax_select* in your settings *INSTALLED_APPS*
 #. It's really important set *CELERY_MODULE* pointing to your project celery file, because it's needed for assing task to the current project, and configure some default celery options
 
     .. code:: python
