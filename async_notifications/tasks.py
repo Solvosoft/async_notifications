@@ -7,10 +7,9 @@ Created on 20/12/2015
 
 from __future__ import unicode_literals
 
-import importlib
-
 from django.conf import settings
 from django.core import mail
+import importlib
 
 from .mail_utils import get_all_emails
 from .models import EmailNotification
@@ -57,7 +56,7 @@ def send_email(obj):
         except:
             return
 
-    mails = get_all_emails(obj.recipient)
+    mails = list(get_all_emails(obj.recipient))
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]
