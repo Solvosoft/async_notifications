@@ -29,6 +29,16 @@ Installation
 
 
 #. Insert *async_notifications* and *ajax_select* in your settings *INSTALLED_APPS*
+#. Add ajax_select urls in urls.py
+
+    .. code:: python
+    
+        from ajax_select import urls as ajax_select_urls
+        urlpatterns = [
+            ...
+            url(r'^ajax_select/', include(ajax_select_urls)),
+        ]
+   
 #. It's really important set *CELERY_MODULE* pointing to your project celery file, because it's needed for assing task to the current project, and configure some default celery options
 
     .. code:: python
