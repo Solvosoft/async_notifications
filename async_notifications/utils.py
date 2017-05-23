@@ -10,6 +10,8 @@ Created on 20/12/2015
 from django.template import Context, Template
 from .models import EmailTemplate, EmailNotification
 from django.apps import apps
+from django.template.exceptions import TemplateDoesNotExist
+import six
 
 
 def hexify(text):
@@ -22,6 +24,18 @@ def unhexify(text):
     return "".join([chr(int(text[x] + text[x + 1], base=16))
                     for x in range(0, len(text), 2)])
 
+def _get_template(code):
+	template = None
+	if type(code) == six.text_type or type(code) == six.binary_type:
+		code = [code]
+	for _code in code:
+    	template = EmailTemplate.objects.filter(code=_code).first()
+		if template:
+			break
+	if template is None:
+		raise TemplateDoesNotExist()
+	return template
+
 
 def send_email_from_template(code, recipient,
                              context={},
@@ -29,8 +43,8 @@ def send_email_from_template(code, recipient,
                              user=None,
                              upfile=None):
 
-    template = EmailTemplate.objects.get(code=code)
 
+	template = _get_template(code)
     if user is not None:
         context['user'] = user
 
