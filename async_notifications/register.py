@@ -13,6 +13,19 @@ import json
 
 codes = []
 
+class DummyContextObject(object):
+    def __init__(self, name):
+        self.parent = name
+
+    def __getattr__(self, name):
+        return DummyContextObject("%s.%s" % (self.parent, name))
+
+    def __str__(self, *args, **kwargs):
+        return "{{ %s }}" % (self.parent)
+
+    def __repr__(self, *args, **kwargs):
+        return "{{ %s }}" % (self.parent)
+
 
 def update_template_context(code, view_name,  context):
     """ context :

@@ -137,6 +137,26 @@ Params description:
 Other optional options 
 ========================
 
+Adding context dummy object
+----------------------------
+
+When you need to pass a default template message base on template, but you have not the template object
+and also you need to write the object with django template sintaxis you can use DummyContextObject that 
+return always something like {{myobj.attr1.objattr}}
+    
+    from async_notifications.register import update_template_context, DummyContextObject
+    context = [
+        ('myobj', 'Field description'),
+        ...
+    ]
+    message = render_to_string('some/template.html',
+                           context={
+                               'myobj': DummyContextObject('myobj')
+                           }
+                           )
+    update_template_context("yourcode",  'your email subject', context, message=message )
+
+
 Django cms integration
 -------------------------
 

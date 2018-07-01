@@ -51,6 +51,9 @@ class TemplateContext(models.Model):
     code = models.CharField(max_length=50, verbose_name=_("Code"))
     context_dic = models.TextField(verbose_name=_("Context dictionary"))
 
+    def __str__(self):
+        return self.code
+
     class Meta:
         verbose_name = _("Context of template")
         verbose_name_plural = _("Context of template")
