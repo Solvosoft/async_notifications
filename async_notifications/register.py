@@ -14,7 +14,7 @@ import json
 codes = []
 
 
-def update_template_context(code, view_name,  context):
+def update_template_context(code, view_name,  context, message=" "):
     """ context :
         [
         (name, help_text),
@@ -30,7 +30,7 @@ def update_template_context(code, view_name,  context):
                 EmailTemplate.objects.get(code=code)
             except:
                 EmailTemplate.objects.create(
-                    code=code, subject=view_name, message=" ")
+                    code=code, subject=view_name, message=message)
 
             if temp_context.context_dic:
                 context_dic = json.loads(temp_context.context_dic)
