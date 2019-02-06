@@ -40,9 +40,11 @@ setup(
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     install_requires=[
-        'celery>=3.1',
-        'django>=1.7',
-	'django-ajax-selects==1.5.2',
+	'celery>4.2',
+	'django>2.0',
+	'django-ajax-selects==1.7.1',
+	'six',
+	'django-classy-tags==0.8.0'
     ],
     packages=find_packages(exclude=["demo"]),
     include_package_data=True,
