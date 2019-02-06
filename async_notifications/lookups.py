@@ -9,7 +9,6 @@ Free as freedom will be 25/9/2016
 from __future__ import unicode_literals
 
 from ajax_select import register, LookupChannel
-from django.contrib.auth import get_user_model
 from django.db.models.query_utils import Q
 
 from django.utils.translation import ugettext as _

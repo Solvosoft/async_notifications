@@ -7,11 +7,6 @@ Free as freedom will be 25/9/2016
 '''
 
 from __future__ import unicode_literals
-
-
-from django.forms.widgets import Textarea
-from django.template.loader import render_to_string
-
 from ajax_select.fields import (AutoCompleteSelectMultipleField,
                                 AutoCompleteSelectMultipleWidget)
 

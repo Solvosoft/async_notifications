@@ -27,12 +27,21 @@ Installation
     
         $ pip install async_notifications
 
+#. Add required apps in your settings **
 
-#. Insert *async_notifications* and *ajax_select* in your settings *INSTALLED_APPS*
+    .. code:: python
+
+        INSTALLED_APPS = [
+            ...
+            'ajax_select',
+            'async_notifications'
+        ]
+
 #. Add ajax_select urls in urls.py
 
     .. code:: python
-    
+
+        from django.conf.urls import url, include
         from ajax_select import urls as ajax_select_urls
         urlpatterns = [
             ...
@@ -43,20 +52,12 @@ Installation
 
     .. code:: python
 
-        from __future__ import absolute_import
+        # settings.py
         CELERY_MODULE = "demo.celery"
         CELERY_TIMEZONE = TIME_ZONE
         CELERY_ACCEPT_CONTENT = ['pickle', 'json']
         
-        from celery.schedules import crontab
-        
-        CELERYBEAT_SCHEDULE = {
-            # execute 12:30 pm
-            'send_daily_emails': {
-                'task': 'async_notifications.tasks.send_daily',
-                'schedule': crontab(minute=30, hour=0),
-            },
-        }
+
 
 #. Configure your email settings, e.g for development
 
@@ -66,11 +67,28 @@ Installation
         EMAIL_HOST="localhost"
         EMAIL_PORT="1025"
 
+# Copy celery app in your project folder from demo, and adjust the crontab execution
+
+    .. code:: python
+
+        # celery.py
+        app.conf.CELERYBEAT_SCHEDULE = {
+            # execute 12:30 pm
+            'send_daily_emails': {
+                'task': 'async_notifications.tasks.send_daily',
+                'schedule': crontab(minute=30, hour=0),
+
+            },
+        }
+
+Remember use  demo/__init__.py to update your projectfolder/__init__.py.
+
 #. Run migrations 
 
     .. code:: bash
     
         $ python manage.py migrate
+
 
 Runing the project
 ===================
@@ -86,7 +104,7 @@ You need to run 3 subsystems for run this app so you need 3 xterm, for this expl
 2. Run celery, if you aren't setup celery yet see `celery documentation <http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html>`_.
 
     .. code:: bash
-    
+
         $ celery -A demo worker -l info -B
         
 3. Run django

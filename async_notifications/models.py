@@ -15,7 +15,7 @@ class EmailNotification(models.Model):
     enqueued = models.BooleanField(default=True,
                                    verbose_name=_("Enqueued"))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True,
-                             blank=True, verbose_name=_("User"))
+                             blank=True, verbose_name=_("User"), on_delete=models.CASCADE)
     sended = models.BooleanField(default=False, verbose_name=_("Sended"))
     file = models.FileField(upload_to='email/%Y/%M', null=True,
                             blank=True, verbose_name=_("File"))
