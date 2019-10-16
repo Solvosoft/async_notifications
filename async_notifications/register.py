@@ -9,6 +9,7 @@ Free as freedom will be 26/9/2016
 from __future__ import unicode_literals
 
 from .models import TemplateContext, EmailTemplate
+from django.template.loader import render_to_string
 import json
 
 codes = []
@@ -27,13 +28,21 @@ class DummyContextObject(object):
         return "{{ %s }}" % (self.parent)
 
 
-def update_template_context(code, view_name,  context, message=" "):
+def update_template_context(code, view_name,  context, message=" ", as_template=False):
     """ context :
         [
         (name, help_text),
         ]
 
     """
+    if as_template:
+        new_context = {}
+        for c in context:
+            print(c, type(c))
+            if not isinstance(c, str):
+                c=c[0]
+            new_context[c] = DummyContextObject(c)
+        message = render_to_string(message, context=new_context)
     ncode = "%s.%s" % (code, view_name)
     try:  # fail ok if no migrations first python manage.py migrate
         if ncode not in codes:

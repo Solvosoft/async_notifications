@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 import json
 
 from async_notifications.tasks import send_email
-
+from django.conf import settings
 from .forms import NotificationForm
 from .models import EmailNotification, EmailTemplate, TemplateContext
 from .settings import TEXT_AREA_WIDGET
@@ -100,17 +100,27 @@ class EmailTemplateAdmin(admin.ModelAdmin):
         try:
             tcontext = TemplateContext.objects.get(code=obj.code)
             context = json.loads(tcontext.context_dic)
-        except:
+        except TemplateContext.DoesNotExist as e:
+            if settings.DEBUG:
+                return obj.code+" -- "+str(e)
             return ""
         dev = ""
         for view_name in context:
+             
             dev += "<h4>%s</h4><ol>" % (view_name)
-            for name, help in context[view_name]:
-                dev += "<li><strong>%s:</strong> %s<br></li>" % (name, help)
+            datacont = context[view_name]
+            if isinstance(datacont, dict):
+                datacont = datacont.items()
+            for name, help_text in datacont:
+                dev += "<li><strong>%s:</strong> %s</li><br>" % (name, help_text)
             dev += "</ol>"
+ 
         return mark_safe(dev)
     template_context.short_description = _("Template context")
 
 # admin.site.register(TemplateContext)
 admin.site.register(EmailTemplate, EmailTemplateAdmin)
 admin.site.register(EmailNotification, MyNotification)
+
+if settings.DEBUG:
+    admin.site.register(TemplateContext)

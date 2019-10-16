@@ -133,6 +133,13 @@ This automátically create a Email template if not found.
 Context is list of tuples with the fields available in the template context, this context is add in the same file 
 that have `send_email_from_template`
 
+Using with django templates 
+
+.. code:: python
+
+    update_template_context("yourcode",  'your email subject', context, 'templatepath.html', as_template=True )
+
+Send dict as context is now available, but remember that you can not repit keys in dict so use with precaution.
 
 Send an email :) 
 
