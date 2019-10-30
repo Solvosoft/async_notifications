@@ -38,7 +38,6 @@ def update_template_context(code, view_name,  context, message=" ", as_template=
     if as_template:
         new_context = {}
         for c in context:
-            print(c, type(c))
             if not isinstance(c, str):
                 c=c[0]
             new_context[c] = DummyContextObject(c)

@@ -113,8 +113,12 @@ class NotificationEmailLookup(LookupChannel):
 
     def get_objects(self, ids):
         objs = []
+
         if ids == []:
             return ids
+
+        ids = "".join(ids)
+        ids=ids.split(',')
         for email in extract_emails(ids):
             person = self.find_user(email)
             if person is None:
