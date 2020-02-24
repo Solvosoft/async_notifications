@@ -7,6 +7,8 @@ Created on 20/12/2015
 
 from __future__ import unicode_literals
 
+import os
+
 from django.conf import settings
 from django.core import mail
 import importlib
@@ -18,6 +20,30 @@ from .settings import MAX_PER_MAIL
 
 app = importlib.import_module(settings.CELERY_MODULE).app
 
+def _send_email_multi_alternatives(obj, mails):
+    send_ok = False
+    with mail.get_connection() as connection:
+        message = mail.EmailMessage(obj.subject, obj.message,
+                                    settings.DEFAULT_FROM_EMAIL,
+                                    mails,
+                                    connection=connection,
+                                    cc=obj.cc_mail,bcc=obj.bcc_mail
+                                    )
+        message.content_subtype = "html"
+        if os.path.isfile(settings.MEDIA_ROOT + obj.file.name):
+            message.attach_file(settings.MEDIA_ROOT + obj.file.name)
+        try:
+            message.send()
+            send_ok = True
+        except:
+            obj.problems = True
+            obj.save()
+
+    if send_ok:
+        obj.sended = True
+        obj.queued = False
+        obj.problems = False
+        obj.save()
 
 def _send_email(obj, mails):
     send_ok = False
@@ -28,7 +54,7 @@ def _send_email(obj, mails):
                                     connection=connection
                                     )
         message.content_subtype = "html"
-        if obj.file:
+        if os.path.isfile(settings.MEDIA_ROOT + obj.file.name):
             message.attach_file(settings.MEDIA_ROOT + obj.file.name)
         try:
             message.send()
