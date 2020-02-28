@@ -13,6 +13,7 @@ from django.conf import settings
 from django.core import mail
 import importlib
 
+from utils import custom_extract_emails
 from .mail_utils import get_all_emails
 from .models import EmailNotification
 from .settings import MAX_PER_MAIL
@@ -20,14 +21,13 @@ from .settings import MAX_PER_MAIL
 
 app = importlib.import_module(settings.CELERY_MODULE).app
 
-def _send_email_multi_alternatives(obj, mails):
+def _send_email_with_alternatives(obj, mails):
     send_ok = False
     with mail.get_connection() as connection:
         message = mail.EmailMessage(obj.subject, obj.message,
                                     settings.DEFAULT_FROM_EMAIL,
-                                    mails,
+                                    mails['to'],bcc=mails['cco'],cc=mails['cc'],
                                     connection=connection,
-                                    cc=obj.cc_mail,bcc=obj.bcc_mail
                                     )
         message.content_subtype = "html"
         if os.path.isfile(settings.MEDIA_ROOT + obj.file.name):
@@ -41,9 +41,10 @@ def _send_email_multi_alternatives(obj, mails):
 
     if send_ok:
         obj.sended = True
-        obj.queued = False
+        obj.enqueued = False
         obj.problems = False
         obj.save()
+
 
 def _send_email(obj, mails):
     send_ok = False
@@ -90,7 +91,24 @@ def send_email(obj):
     if len(mails) > 0:
         _send_email(obj, mails)
 
+@app.task
+def send_email_with_alternatives(obj):
+    """
+    Envía un correo
+    obj puede ser un pk o una instancia EmailNotification
+    """
+    if not isinstance(obj, EmailNotification):
+        try:
+            obj = EmailNotification.objects.get(pk=obj)
+        except:
+            return
+    mails = custom_extract_emails(obj.recipient)
+    _send_email_with_alternatives(obj, mails)
 
+@app.task
+def send_daily_alternative():
+    for email in EmailNotification.objects.filter(sended=False, enqueued=True):
+        send_email_with_alternatives(email)
 @app.task
 def send_daily():
     for email in EmailNotification.objects.filter(sended=False, enqueued=True):

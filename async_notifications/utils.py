@@ -1,6 +1,8 @@
 # encoding: utf-8
 from __future__ import unicode_literals
 
+import json
+
 '''
 Created on 20/12/2015
 
@@ -76,6 +78,46 @@ def extract_emails(text):
 
     emails = [unhexify(x.strip()) for x in mail_list]
     return emails
+
+
+def custom_extract_emails(text):
+    if type(text) == str:
+        mail_dict = json.loads(text)
+    else:
+        mail_dict = text
+    return mail_dict
+
+
+def custom_send_email_from_template(code, recipient,
+                             context={},
+                             enqueued=True,
+                             user=None,
+                             upfile=None):
+
+
+    template = _get_template(code)
+    if user is not None:
+        context['user'] = user
+
+    recipient_json = json.dumps(recipient)
+    recipient = recipient_json
+
+    subject = Template(template.subject)
+    message = Template(template.message)
+    c = Context(context)
+
+    email = EmailNotification(subject=subject.render(c),
+                              message=message.render(c),
+                              recipient=recipient,
+                              enqueued=enqueued
+                              )
+    if user is not None:
+        email.user = user
+    if upfile is not None:
+        email.file = upfile
+
+    email.save()
+
 
 
 def get_model(model_name):
