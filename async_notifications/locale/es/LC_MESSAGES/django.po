@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: async_notification\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-18 11:33-0600\n"
-"PO-Revision-Date: 2016-11-18 11:34-0600\n"
+"POT-Creation-Date: 2020-02-29 00:19-0600\n"
+"PO-Revision-Date: 2020-02-29 00:21-0600\n"
 "Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
 "Language-Team: ES <info@solvosoft.com>\n"
 "Language: es\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:16 models.py:18
+#: admin.py:16 models.py:16
 msgid "User"
 msgstr "Usuario"
 
@@ -31,19 +31,19 @@ msgstr "Todos los correos"
 msgid "My mails"
 msgstr "Mis correos"
 
-#: admin.py:77
+#: admin.py:73
 msgid "Send email now"
 msgstr "Enviar correo ahora"
 
-#: admin.py:82
+#: admin.py:78
 msgid " and more"
 msgstr "y más"
 
-#: admin.py:84
+#: admin.py:80
 msgid "Recipients"
 msgstr "Lista de recibo"
 
-#: admin.py:110
+#: admin.py:112
 msgid "Template context"
 msgstr "Contexto de plantilla"
 
@@ -51,79 +51,95 @@ msgstr "Contexto de plantilla"
 msgid "Email Notification"
 msgstr "Notificación por correo"
 
-#: forms.py:18 models.py:14
+#: forms.py:19 models.py:12
 msgid "Recipient list"
 msgstr "Lista de recibo"
 
-#: lookups.py:109
+#: forms.py:20 forms.py:33
+msgid "Bcc Recipient list"
+msgstr "Copia oculta a carbón"
+
+#: forms.py:21 forms.py:34
+msgid "CC Recipient list"
+msgstr "CC copia a carbón"
+
+#: lookups.py:108
 msgid "Add external email"
 msgstr "Agregar correo externo"
 
-#: lookups.py:124
+#: lookups.py:127
 msgid "External user"
 msgstr "Usuario externo"
 
-#: models.py:11 models.py:38
+#: models.py:9 models.py:39
 msgid "Subject"
 msgstr "Asunto"
 
-#: models.py:12 models.py:39
+#: models.py:10 models.py:40
 msgid "Message"
 msgstr "Mensaje"
 
-#: models.py:16
+#: models.py:14
 msgid "Enqueued"
 msgstr "Encolado"
 
-#: models.py:19
+#: models.py:17
 msgid "Sended"
 msgstr "Enviado"
 
-#: models.py:21
+#: models.py:19
 msgid "File"
 msgstr "Archivo"
 
-#: models.py:22
+#: models.py:20
 msgid "Problems"
 msgstr "Problemas"
 
-#: models.py:24
+#: models.py:22
 msgid "Create datetime"
 msgstr "Fecha de creación"
 
-#: models.py:27
+#: models.py:24 models.py:41
+msgid "Bcc Blind carbon copy list"
+msgstr "Bcc lista de remitentes en copia oculta"
+
+#: models.py:25 models.py:42
+msgid "Cc Carbon Copy list"
+msgstr "CC lista de remitentes en copia a carbón"
+
+#: models.py:28
 msgid "sended"
 msgstr "enviado"
 
-#: models.py:27
+#: models.py:28
 msgid "Not sended"
 msgstr "No enviado"
 
-#: models.py:31
+#: models.py:32
 msgid "Email notification"
 msgstr "Notificación por correo"
 
-#: models.py:32
+#: models.py:33
 msgid "Email notifications"
 msgstr "Notificaciones por correo"
 
-#: models.py:37 models.py:51
+#: models.py:38 models.py:54
 msgid "Code"
 msgstr "Código"
 
-#: models.py:45
+#: models.py:48
 msgid "Email template"
 msgstr "Plantilla de correo"
 
-#: models.py:46
+#: models.py:49
 msgid "Email templates"
 msgstr "Plantillas de correo"
 
-#: models.py:52
+#: models.py:55
 msgid "Context dictionary"
 msgstr "Diccionario de contexto"
 
-#: models.py:55 models.py:56
+#: models.py:61 models.py:62
 msgid "Context of template"
 msgstr "Contexto de la plantilla"
 
@@ -151,14 +167,8 @@ msgstr "Contexto de la plantilla"
 #~ msgid "Article url"
 #~ msgstr "Url de artículo"
 
-#~ msgid ""
-#~ "Article object [title, lead_in,                              content, "
-#~ "author, owner, publishing_date,                              "
-#~ "is_published, is_featured ]"
-#~ msgstr ""
-#~ "Objeto articulo [title, lead_in,                              content, "
-#~ "author, owner, publishing_date,                              "
-#~ "is_published, is_featured ]"
+#~ msgid "Article object [title, lead_in,                              content, author, owner, publishing_date,                              is_published, is_featured ]"
+#~ msgstr "Objeto articulo [title, lead_in,                              content, author, owner, publishing_date,                              is_published, is_featured ]"
 
 #~ msgid "User extra message"
 #~ msgstr "Mensaje extra del usuario"

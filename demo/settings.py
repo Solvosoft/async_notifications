@@ -131,3 +131,13 @@ DEFAULT_FROM_EMAIL="mail@example.com"
 EMAIL_HOST="localhost"
 EMAIL_PORT="1025"
 ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
+
+# docker run -d --rm --name  redis -p 6379:6379 -d redis
+# pip install redis
+#CELERY_BROKER_URL =  'redis://localhost:6379/0'
+
+# with rabbitmq
+# service rabbitmq-server start
+
+ASYNC_BCC  = 'ejemplo@luisza.com'
+ASYNC_CC = 'ejemplo@luisza.com,ejemplo2@luisza.com'

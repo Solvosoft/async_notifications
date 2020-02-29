@@ -21,7 +21,6 @@ app = importlib.import_module(settings.CELERY_MODULE).app
 
 def _send_email(obj, mails, bcc=None, cc=None):
     send_ok = False
-    print(mails, bcc, cc)
     with mail.get_connection() as connection:
         message = mail.EmailMessage(obj.subject, obj.message,
                                     settings.DEFAULT_FROM_EMAIL,
