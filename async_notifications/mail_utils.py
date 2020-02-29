@@ -36,7 +36,8 @@ def get_mails_from_group(group_name):
 
 
 def get_all_emails(text):
-
+    if text is None:
+        return []
     mails = extract_emails(text)
     gmails = []
     for mail in mails:

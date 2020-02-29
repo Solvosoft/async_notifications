@@ -19,12 +19,15 @@ from .settings import MAX_PER_MAIL
 app = importlib.import_module(settings.CELERY_MODULE).app
 
 
-def _send_email(obj, mails):
+def _send_email(obj, mails, bcc=None, cc=None):
     send_ok = False
+    print(mails, bcc, cc)
     with mail.get_connection() as connection:
         message = mail.EmailMessage(obj.subject, obj.message,
                                     settings.DEFAULT_FROM_EMAIL,
                                     mails,
+                                    bcc=bcc,
+                                    cc=cc,
                                     connection=connection
                                     )
         message.content_subtype = "html"
@@ -57,12 +60,14 @@ def send_email(obj):
             return
 
     mails = list(get_all_emails(obj.recipient))
+    bcc = list(get_all_emails(obj.bcc))
+    cc = list(get_all_emails(obj.cc))
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]
-        _send_email(obj, s_mails)
+        _send_email(obj, s_mails, bcc=bcc, cc=cc)
     if len(mails) > 0:
-        _send_email(obj, mails)
+        _send_email(obj, mails, bcc=bcc, cc=cc)
 
 
 @app.task

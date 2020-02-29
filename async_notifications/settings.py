@@ -49,3 +49,6 @@ TEXT_AREA_WIDGET = getattr(importlib.import_module(module_name), class_name)
 
 CONTACT_PLUS_EMAIL = getattr(
     settings, 'ASYNC_NOTIFICATION_CONTACT_PLUS_EMAIL', 'email')
+
+EXTRA_BCC = getattr(settings, 'ASYNC_BCC', None)
+EXTRA_CC = getattr(settings, 'ASYNC_CC', None)

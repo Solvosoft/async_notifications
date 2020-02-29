@@ -6,7 +6,7 @@ import json
 
 from async_notifications.tasks import send_email
 from django.conf import settings
-from .forms import NotificationForm
+from .forms import NotificationForm, TemplateForm
 from .models import EmailNotification, EmailTemplate, TemplateContext
 from .settings import TEXT_AREA_WIDGET
 from .utils import extract_emails
@@ -33,13 +33,9 @@ class UserAdminListFilter(admin.SimpleListFilter):
 
 class MyNotification(admin.ModelAdmin):
 
-    formfield_overrides = {
-        models.TextField: {'widget': TEXT_AREA_WIDGET}
-    }
-
     fields = (("enqueued", "sended", "problems"),
               "subject",
-              "recipient",
+              "recipient", "bcc", 'cc',
               "message",
               "file"
               )
@@ -85,14 +81,11 @@ class MyNotification(admin.ModelAdmin):
 
 
 class EmailTemplateAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': TEXT_AREA_WIDGET}
-    }
-
     field = ('code', 'subject', 'message', 'template_context')
     list_display = ('code', 'subject')
     search_fields = ['code', 'subject']
     readonly_fields = ['template_context']
+    form = TemplateForm
 
     def template_context(self, obj=None):
         if obj is None:

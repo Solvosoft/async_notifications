@@ -1,6 +1,8 @@
 # encoding: utf-8
 from __future__ import unicode_literals
 
+from .settings import EXTRA_BCC, EXTRA_CC
+
 '''
 Created on 20/12/2015
 
@@ -36,13 +38,31 @@ def _get_template(code):
         raise TemplateDoesNotExist()
     return template
 
+def get_bcc_field(template, bcc):
+    bcc = bcc or EXTRA_BCC
+    if template.cc is not None:
+        if bcc is None:
+            bcc = template.cc
+        else:
+            bcc +=","+template.cc
+    return bcc
+
+def get_cc_field(template, cc):
+    cc = cc or EXTRA_CC
+    if template.cc is not None:
+        if cc is None:
+            cc = template.cc
+        else:
+            cc +=","+template.cc
+    return cc
 
 def send_email_from_template(code, recipient,
                              context={},
                              enqueued=True,
                              user=None,
-                             upfile=None):
-
+                             upfile=None,
+                             bcc=None,
+                             cc=None):
 
     template = _get_template(code)
     if user is not None:
@@ -54,10 +74,14 @@ def send_email_from_template(code, recipient,
     subject = Template(template.subject)
     message = Template(template.message)
     c = Context(context)
+    bcc=get_bcc_field(template, bcc)
+    cc=get_cc_field(template, cc)
     email = EmailNotification(subject=subject.render(c),
                               message=message.render(c),
                               recipient=recipient,
-                              enqueued=enqueued
+                              enqueued=enqueued,
+                              bcc=bcc,
+                              cc=cc
                               )
     if user is not None:
         email.user = user
@@ -68,12 +92,12 @@ def send_email_from_template(code, recipient,
 
 
 def extract_emails(text):
-    if type(text) == str:
+    if isinstance(text, str):
         mail_list = text.replace(
             "[", "").replace("]", "").replace("'", "").split(",")
     else:
         mail_list = text
-
+        mail_list = [x.replace('[', '').replace(']', '').replace("'", '') for x in mail_list ]
     emails = [unhexify(x.strip()) for x in mail_list]
     return emails
 
