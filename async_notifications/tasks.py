@@ -10,6 +10,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.core import mail
 import importlib
+import os
 
 from .mail_utils import get_all_emails
 from .models import EmailNotification
@@ -31,7 +32,8 @@ def _send_email(obj, mails, bcc=None, cc=None):
                                     )
         message.content_subtype = "html"
         if obj.file:
-            message.attach_file(settings.MEDIA_ROOT + obj.file.name)
+            if os.path.isfile(settings.MEDIA_ROOT + obj.file.name):
+                message.attach_file(settings.MEDIA_ROOT + obj.file.name)
         try:
             message.send()
             send_ok = True
