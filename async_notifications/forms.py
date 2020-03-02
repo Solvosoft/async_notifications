@@ -17,8 +17,8 @@ from django.utils.translation import ugettext_lazy as _
 
 class NotificationForm(forms.ModelForm):
     recipient = EmailLookup('emails', label=_('Recipient list'))
-    bcc = EmailLookup('emails', label=_('Bcc Recipient list'))
-    cc = EmailLookup('emails', label=_('CC Recipient list'))
+    bcc = EmailLookup('emails', label=_('Bcc Recipient list'), required=False)
+    cc = EmailLookup('emails', label=_('CC Recipient list'), required=False)
 
     class Meta:
         model = EmailNotification
@@ -30,8 +30,8 @@ class NotificationForm(forms.ModelForm):
         }
 
 class TemplateForm(forms.ModelForm):
-    bcc = EmailLookup('emails', label=_('Bcc Recipient list'))
-    cc = EmailLookup('emails', label=_('CC Recipient list'))
+    bcc = EmailLookup('emails', label=_('Bcc Recipient list'), required=False)
+    cc = EmailLookup('emails', label=_('CC Recipient list'), required=False)
 
     class Meta:
         model = EmailTemplate
