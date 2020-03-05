@@ -52,3 +52,4 @@ CONTACT_PLUS_EMAIL = getattr(
 
 EXTRA_BCC = getattr(settings, 'ASYNC_BCC', None)
 EXTRA_CC = getattr(settings, 'ASYNC_CC', None)
+SEND_ONLY_EMAIL = getattr(settings, 'ASYNC_SEND_ONLY_EMAIL', None)

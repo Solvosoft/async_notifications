@@ -14,8 +14,7 @@ import os
 
 from .mail_utils import get_all_emails
 from .models import EmailNotification
-from .settings import MAX_PER_MAIL
-
+from .settings import MAX_PER_MAIL, SEND_ONLY_EMAIL
 
 app = importlib.import_module(settings.CELERY_MODULE).app
 
@@ -59,10 +58,14 @@ def send_email(obj):
             obj = EmailNotification.objects.get(pk=obj)
         except:
             return
-
-    mails = list(get_all_emails(obj.recipient))
-    bcc = list(get_all_emails(obj.bcc))
-    cc = list(get_all_emails(obj.cc))
+    if SEND_ONLY_EMAIL:
+        mails = SEND_ONLY_EMAIL
+        bcc=None
+        cc=None
+    else:
+        mails = list(get_all_emails(obj.recipient))
+        bcc = list(get_all_emails(obj.bcc))
+        cc = list(get_all_emails(obj.cc))
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]
