@@ -14,14 +14,17 @@ import os
 
 from .mail_utils import get_all_emails
 from .models import EmailNotification
-from .settings import MAX_PER_MAIL, SEND_ONLY_EMAIL
+from .settings import MAX_PER_MAIL, SEND_ONLY_EMAIL, SMTP_DEBUG
 
 app = importlib.import_module(settings.CELERY_MODULE).app
 
 
 def _send_email(obj, mails, bcc=None, cc=None):
     send_ok = False
+    sent = 0
     with mail.get_connection() as connection:
+        if SMTP_DEBUG:
+            connection.connection.set_debuglevel(1)
         message = mail.EmailMessage(obj.subject, obj.message,
                                     settings.DEFAULT_FROM_EMAIL,
                                     mails,
@@ -34,18 +37,20 @@ def _send_email(obj, mails, bcc=None, cc=None):
             if os.path.isfile(settings.MEDIA_ROOT + obj.file.name):
                 message.attach_file(settings.MEDIA_ROOT + obj.file.name)
         try:
-            message.send()
+            message.send(fail_silently=False)
             send_ok = True
-        except:
+            sent+=1
+        except Exception as e:
             obj.problems = True
             obj.save()
+            print(e)
 
     if send_ok:
         obj.sended = True
-        obj.queued = False
+        obj.enqueued = False
         obj.problems = False
         obj.save()
-
+    return sent
 
 @app.task
 def send_email(obj):
@@ -53,6 +58,7 @@ def send_email(obj):
     Envía un correo 
     obj puede ser un pk o una instancia EmailNotification
     """
+    sent=0
     if not isinstance(obj, EmailNotification):
         try:
             obj = EmailNotification.objects.get(pk=obj)
@@ -69,12 +75,18 @@ def send_email(obj):
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]
-        _send_email(obj, s_mails, bcc=bcc, cc=cc)
+        sent += _send_email(obj, s_mails, bcc=bcc, cc=cc)
     if len(mails) > 0:
-        _send_email(obj, mails, bcc=bcc, cc=cc)
+        sent += _send_email(obj, mails, bcc=bcc, cc=cc)
 
+    return sent
 
 @app.task
 def send_daily():
+    sent = 0
     for email in EmailNotification.objects.filter(sended=False, enqueued=True):
-        send_email(email)
+        try:
+            sent += send_email(email)
+        except Exception as e:
+            print(e)
+    return "sent %d"%(sent,)
