@@ -155,7 +155,7 @@ Params description:
 
 - `recipient` is a list of emails
 - `code` is the same code register in update_template_context
-- `enqueued`  if **False** send the email immediately else enqueued to be sended when send email task run.
+- `enqueued`  if **False** send the email immediately else enqueued to be sent when send email task run.
 - `user` user how send email
 - `upfile` attached file in email
 

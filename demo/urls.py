@@ -17,10 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from ajax_select import urls as ajax_select_urls
+
+from async_notifications.markitup.views import preview_newsletter
 from demo.views import index
 
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
     url(r'^ajax_select/', include(ajax_select_urls)),
+    url(r'^markitup/preview/$', preview_newsletter, name="markitup_preview")
 ]

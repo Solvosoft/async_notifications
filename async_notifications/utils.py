@@ -1,6 +1,8 @@
 # encoding: utf-8
 from __future__ import unicode_literals
 
+from collections import OrderedDict
+
 from .settings import EXTRA_BCC, EXTRA_CC
 
 '''
@@ -15,6 +17,8 @@ from django.apps import apps
 from django.template.exceptions import TemplateDoesNotExist
 import six
 
+NEWS_CONTEXT_ELEMENT = {}
+NEWS_BASE_MODELS = {}
 
 def hexify(text):
     return "".join([str(hex(ord(x))).replace("0x", "") for x in text])
@@ -105,3 +109,68 @@ def extract_emails(text):
 def get_model(model_name):
     app_name, model = model_name.split(".")
     return apps.get_model(app_name, model)
+
+def register_model(name, kass, depth=2,
+                   exclude=[], prefix=""):
+    global NEWS_CONTEXT_ELEMENT
+    if name not in NEWS_CONTEXT_ELEMENT:
+        NEWS_CONTEXT_ELEMENT[name] = []
+    NEWS_CONTEXT_ELEMENT[name] += describe_class(kass,depth=depth, prefix=prefix, exclude=exclude)
+
+def get_relation_class(field):
+    if not field.is_relation:
+        return None, None
+
+    related_name = field.related_name if hasattr(field,'related_name') else field.name
+    if related_name is None:
+        related_name=field.related_model.__name__.lower()+'_set'
+    return field.related_model, related_name
+
+def describe_class(kass, prefix="", separator=".", exclude=[], depth=2, cdepth=0):
+    fields=kass._meta.get_fields()
+    cdepth += 1
+    dev = []
+    for field in fields:
+        name = prefix + field.name
+        relkass, relname = get_relation_class(field)
+        if cdepth == depth or relkass is None:
+            if name not in exclude:
+                dev.append([
+                    name,
+                    field.verbose_name if hasattr(field, 'verbose_name') else field.name,
+                    field.help_text if hasattr(field, 'help_text') else ""
+                ])
+        else:
+            if relname:
+                name = prefix+relname
+            if relkass:
+                dev += describe_class(relkass,
+                              prefix=name+separator,
+                              separator=separator,
+                              exclude=exclude,
+                              depth=depth, cdepth=cdepth)
+    return dev
+
+
+def get_newsletter_context(name):
+    dev = []
+    if name in NEWS_CONTEXT_ELEMENT:
+        dev = NEWS_CONTEXT_ELEMENT[name]
+    return dev
+
+def register_news_basemodel(modelname, description, kass):
+    NEWS_BASE_MODELS[modelname]=(modelname, description, kass)
+
+def get_basemodels_dict():
+    dev = []
+    for name in NEWS_BASE_MODELS:
+        dev.append(
+            (name, NEWS_BASE_MODELS[name][1])
+        )
+    return dev
+
+def get_basemodel_info(name):
+    dev = []
+    if name in NEWS_BASE_MODELS:
+        dev = NEWS_BASE_MODELS[name]
+    return dev

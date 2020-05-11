@@ -46,7 +46,7 @@ def _send_email(obj, mails, bcc=None, cc=None):
             print(e)
 
     if send_ok:
-        obj.sended = True
+        obj.sent = True
         obj.enqueued = False
         obj.problems = False
         obj.save()
@@ -84,7 +84,7 @@ def send_email(obj):
 @app.task
 def send_daily():
     sent = 0
-    for email in EmailNotification.objects.filter(sended=False, enqueued=True):
+    for email in EmailNotification.objects.filter(sent=False, enqueued=True):
         try:
             sent += send_email(email)
         except Exception as e:

@@ -1,0 +1,9 @@
+{% load  i18n %}
+<select data-url="{% url 'updatenewscontext' '0' %}" name="templatecontext" id="id_templatecontext" style="width: 90%;">
+  {% for i in cinstance %}
+  <option value="{{ i.0 }}"> {{ i.0 }} -- {{i.1}} {{i.2}}</option>
+  {% endfor %}
+</select>
+<p class="help_text">
+  {% trans 'Select one and will be copied to clipboard' %}
+</p>

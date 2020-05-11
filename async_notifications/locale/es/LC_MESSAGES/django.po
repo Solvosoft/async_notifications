@@ -84,7 +84,7 @@ msgid "Enqueued"
 msgstr "Encolado"
 
 #: models.py:17
-msgid "Sended"
+msgid "Sent"
 msgstr "Enviado"
 
 #: models.py:19
@@ -108,11 +108,11 @@ msgid "Cc Carbon Copy list"
 msgstr "CC lista de remitentes en copia a carbón"
 
 #: models.py:28
-msgid "sended"
+msgid "sent"
 msgstr "enviado"
 
 #: models.py:28
-msgid "Not sended"
+msgid "Not sent"
 msgstr "No enviado"
 
 #: models.py:32

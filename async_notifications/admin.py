@@ -1,15 +1,16 @@
 from django.contrib import admin
 from django.db import models
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 import json
-
+import os
 from async_notifications.tasks import send_email
 from django.conf import settings
-from .forms import NotificationForm, TemplateForm
-from .models import EmailNotification, EmailTemplate, TemplateContext
-from .settings import TEXT_AREA_WIDGET
-from .utils import extract_emails
+from .forms import NotificationForm, TemplateForm, NewsLetterForm, NewsLetterAdminForm
+from .models import EmailNotification, EmailTemplate, TemplateContext, NewsLetterTask, NewsLetter, NewsLetterTemplate
+from .settings import TEXT_AREA_WIDGET, NEWS_CONTEXT_INSTANCE
+from .utils import extract_emails, register_model, get_newsletter_context
 
 
 class UserAdminListFilter(admin.SimpleListFilter):
@@ -33,7 +34,7 @@ class UserAdminListFilter(admin.SimpleListFilter):
 
 class MyNotification(admin.ModelAdmin):
 
-    fields = (("enqueued", "sended", "problems"),
+    fields = (("enqueued", "sent", "problems"),
               "subject",
               "recipient", "bcc", 'cc',
               "message",
@@ -41,11 +42,11 @@ class MyNotification(admin.ModelAdmin):
               )
 
     list_display = ("subject", "recipient_emails", "enqueued",
-                    "sended", "problems", 'create_datetime')
+                    "sent", "problems", 'create_datetime')
 
     readonly_fields = ['recipient_emails']
     actions = ['send_now']
-    ordering = ['-create_datetime', 'sended', '-enqueued']
+    ordering = ['-create_datetime', 'sent', '-enqueued']
 
     date_hierarchy = 'create_datetime'
 
@@ -111,9 +112,67 @@ class EmailTemplateAdmin(admin.ModelAdmin):
         return mark_safe(dev)
     template_context.short_description = _("Template context")
 
+
+
+class NewsTask(admin.TabularInline):
+    model = NewsLetterTask
+    extra = 1
+    fields = ['send_date', 'calc_filters']
+
+class NewsLetterAdmin(admin.ModelAdmin):
+    inlines = [NewsTask]
+    form=NewsLetterForm
+    fieldsets = (
+        (None, {
+            'fields': ('template', 'subject', 'contex_template', 'message', 'file')
+        }),
+        ('Recipients', {
+            'classes': ('collapse', ),
+            'fields': ('recipient',  'bcc', 'cc' ),
+        }),
+    )
+    readonly_fields = ('contex_template', )
+
+    def save_model(self, request, obj, form, change):
+        if not hasattr(obj, 'creator') or obj.creator is None:
+            obj.creator = request.user
+        return super().save_model(request, obj, form, change)
+
+    def contex_template(self, obj):
+        if obj and obj.pk:
+            regcont = get_newsletter_context(obj.template.model_base)
+        else:
+            regcont = []
+        return mark_safe(render_to_string('newsletters/news_context.html',
+                                          context={'object': obj,
+                                                   'cinstance': regcont}))
+    contex_template.short_description = "contexto"
+
+class NewsLetterTemplateAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"name": ("title",)}
+    exclude = ['file_path']
+    form = NewsLetterAdminForm
+
+    def save_model(self, request, obj, form, change):
+        if obj.file_path is None or not obj.file_path:
+            from async_notifications import settings as asettings
+            filepath = "%s%s.html"%(asettings.TEMPLATES_NOTIFICATION,
+            obj.name)
+            obj.file_path = filepath
+        else:
+            filepath = obj.file_path
+        with open(filepath, 'w') as arch:
+            arch.write(obj.message)
+        return super().save_model(request, obj, form, change)
+
+
+
 # admin.site.register(TemplateContext)
 admin.site.register(EmailTemplate, EmailTemplateAdmin)
 admin.site.register(EmailNotification, MyNotification)
+admin.site.register(NewsLetter, NewsLetterAdmin)
+admin.site.register(NewsLetterTemplate, NewsLetterTemplateAdmin)
 
+#register_model(EmailNotification)
 if settings.DEBUG:
     admin.site.register(TemplateContext)

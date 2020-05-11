@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'async_notifications',
     'ajax_select',
-    'ckeditor'
+    'ckeditor',
+    'markitup'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'demo.urls'
+
+#ASYNC_TEMPLATES_NOTIFICATION = os.path.abspath(os.path.join(BASE_DIR, 'templates'))
 
 TEMPLATES = [
     {
@@ -131,6 +134,8 @@ DEFAULT_FROM_EMAIL="mail@example.com"
 EMAIL_HOST="localhost"
 EMAIL_PORT="1025"
 ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
+ASYNC_NEWSLETTER_WIDGET = 'markitup.widgets.AdminMarkItUpWidget'
+MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
 
 # docker run -d --rm --name  redis -p 6379:6379 -d redis
 # pip install redis
@@ -141,3 +146,5 @@ ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
 
 ASYNC_BCC  = 'ejemplo@luisza.com'
 ASYNC_CC = 'ejemplo@luisza.com,ejemplo2@luisza.com'
+
+MARKITUP_SET = 'markitup/sets/markdown/'
