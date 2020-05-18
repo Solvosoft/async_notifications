@@ -16,7 +16,7 @@ Features
 - Django cms integration (djcms_async_notifications) and standalone.
 - Custom text area widget support
 - Allow send group mail list if it's defined.
-
+- Newsletter with model context, preview and extra email configuration
 
 Installation
 =============
@@ -183,6 +183,50 @@ return always something like {{ myobj.attr1.objattr }}
                            )
     update_template_context("yourcode",  'your email subject', context, message=message )
 
+
+Newsletter email extra configuration
+------------------------------------------
+
+As recomendation install django-markitup and markdown to generate preview templates using django template system.
+
+If you want to incorporate custom email sender you can configure with `ASYNC_NEWSLETTER_SEVER_CONFIGS`
+
+.. code:: python
+
+    ASYNC_NEWSLETTER_SEVER_CONFIGS={
+        'host': 'localhost',
+        'port': '1025',
+        'fail_silently': False,
+        'backend': None,
+        'from': 'From user <user@example.com>'
+        'username':'my_username',
+        'password':'my_password',
+        'use_tls': True
+    }
+
+
+Newsletter setup
+--------------------
+
+In your app edit at the end of admin.py to register your model
+
+
+.. code:: python
+
+    register_model('app.model_label', model class, prefix='prefix used to include in template')
+    register_news_basemodel('app.model_label', Title, class manager)
+
+To create a new manager you need to create a class like
+
+.. code:: python
+
+    from async_notifications.interfaces import NewsLetterInterface
+    class MembershipManager(NewsLetterInterface):
+        name = name used to include in template
+        model = Model
+        form = Filter form class
+
+Take a look to NewsLetterInterface to know what methods you need to overwrite      
 
 Django cms integration
 -------------------------
