@@ -187,7 +187,7 @@ return always something like {{ myobj.attr1.objattr }}
 Newsletter email extra configuration
 ------------------------------------------
 
-As recomendation install django-markitup and markdown to generate preview templates using django template system.
+As recomendation install django-markitup and markdown to generate preview templates using django template system and configure `ASYNC_NEWSLETTER_WIDGET` to overwrite default text area editor in template newsletter.
 
 If you want to incorporate custom email sender you can configure with `ASYNC_NEWSLETTER_SEVER_CONFIGS`
 
@@ -203,6 +203,8 @@ If you want to incorporate custom email sender you can configure with `ASYNC_NEW
         'password':'my_password',
         'use_tls': True
     }
+
+
 
 
 Newsletter setup
@@ -288,4 +290,16 @@ ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
 
 .. note:: 
     See how to configure `CKEditor <https://github.com/django-ckeditor/django-ckeditor>`_ .
+
+
+Extra settings configuration
+------------------------------
+
+- ASYNC_NOTIFICATION_MAX_PER_MAIL   default 40 mails per email
+- ASYNC_BCC  include always email in BCC comma separed email (without spaces)
+- ASYNC_SEND_ONLY_EMAIL  for testing send all email to this address
+- ASYNC_SMTP_DEBUG  configure smtp debug for logs
+- ASYNC_TEMPLATES_NOTIFICATION   path for save templates created in emails
+
+
 
