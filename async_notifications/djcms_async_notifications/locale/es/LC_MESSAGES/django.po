@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djcms_async_notifications\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-29 00:19-0600\n"
-"PO-Revision-Date: 2016-09-27 02:43-0600\n"
+"POT-Creation-Date: 2020-05-17 19:24-0600\n"
+"PO-Revision-Date: 2020-05-17 19:33-0600\n"
 "Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
 "Language-Team: ES <ES@li.org>\n"
 "Language: es\n"
@@ -16,58 +16,58 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: djcms_async_notifications/cms_toolbars.py:33
+#: async_notifications/djcms_async_notifications/cms_toolbars.py:33
 msgid "Email"
 msgstr "Correo"
 
-#: djcms_async_notifications/cms_toolbars.py:47
+#: async_notifications/djcms_async_notifications/cms_toolbars.py:47
 msgid "Write email"
 msgstr "Escribir correo"
 
-#: djcms_async_notifications/cms_toolbars.py:52
+#: async_notifications/djcms_async_notifications/cms_toolbars.py:52
 msgid "Email list"
 msgstr "Lista de correo"
 
-#: djcms_async_notifications/cms_toolbars.py:59
+#: async_notifications/djcms_async_notifications/cms_toolbars.py:59
 msgid "Email template list"
 msgstr "Lista de plantillas de correo"
 
-#: djcms_async_notifications/cms_toolbars.py:64
+#: async_notifications/djcms_async_notifications/cms_toolbars.py:64
 msgid "Write template email"
 msgstr "Escribir plantilla de correo"
 
-#: djcms_async_notifications/forms.py:21
+#: async_notifications/djcms_async_notifications/forms.py:21
 msgid "Template"
 msgstr "Plantilla"
 
-#: djcms_async_notifications/forms.py:22
+#: async_notifications/djcms_async_notifications/forms.py:22
 msgid "Recipient list"
 msgstr "Lista de recibo"
 
-#: djcms_async_notifications/forms.py:24
+#: async_notifications/djcms_async_notifications/forms.py:24
 msgid "Extra message"
 msgstr "Mensaje extra"
 
-#: djcms_async_notifications/templates/djcms_async_notifications/page_email.html:17
+#: async_notifications/djcms_async_notifications/templates/djcms_async_notifications/page_email.html:17
 msgid "Send this page by email"
 msgstr "Enviar esta página por correo"
 
-#: djcms_async_notifications/templates/djcms_async_notifications/page_email.html:24
+#: async_notifications/djcms_async_notifications/templates/djcms_async_notifications/page_email.html:24
 msgid "Close"
 msgstr "Cerrar"
 
-#: djcms_async_notifications/templates/djcms_async_notifications/page_email.html:25
+#: async_notifications/djcms_async_notifications/templates/djcms_async_notifications/page_email.html:25
 msgid "Send email"
 msgstr "Enviar correo"
 
-#: djcms_async_notifications/views.py:15
+#: async_notifications/djcms_async_notifications/views.py:15
 msgid "Article url"
 msgstr "Url de articulo"
 
-#: djcms_async_notifications/views.py:17
+#: async_notifications/djcms_async_notifications/views.py:17
 msgid ""
 "Article object [title, lead_in,                              content, "
 "author, owner, publishing_date,                              is_published, "
@@ -77,14 +77,14 @@ msgstr ""
 "author, owner, publishing_date,                              is_published, "
 "is_featured ]"
 
-#: djcms_async_notifications/views.py:20
+#: async_notifications/djcms_async_notifications/views.py:20
 msgid "User extra message"
 msgstr "Mensaje extra"
 
-#: djcms_async_notifications/views.py:21
+#: async_notifications/djcms_async_notifications/views.py:21
 msgid "Sender user"
 msgstr "Usuario enviante"
 
-#: djcms_async_notifications/views.py:53
+#: async_notifications/djcms_async_notifications/views.py:53
 msgid "<div id=\"div_success\">Email sent successfully</div>"
 msgstr "<div id=\"div_success\">Correo enviado satisfactoriamente</div>"

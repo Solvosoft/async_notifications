@@ -2,8 +2,12 @@
 {% load i18n static %}
 
 {% block extrahead %}{{ block.super }}
+
 <link href="{% static 'async_notifications/newsletter_formchange.css' %}"  type="text/css" media="screen" rel="stylesheet" >
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"  type="text/css" media="screen" rel="stylesheet" >
 <script src="//cdn.jsdelivr.net/npm/tabs@0.2.0/index.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@9.10.13/dist/sweetalert2.all.min.js"></script>
 
 <script>
     django.jQuery(document).ready(function(){
@@ -34,12 +38,14 @@
   <div class="submit-row">
 
 <button type="button" class="actbtn button default" name="filterrecipient">
-    {% trans 'Recipient' %}
+    {% trans 'Apply filter' %}
 </button>
 
 
-<button type="button" class="actbtn button" name="filterbcc">Bcc</button>
-<button type="button" class="actbtn button" name="filter">CC</button>
+<button type="button" class="actbtn button" name="showemails">
+    {% trans 'Show emails' %}
+</button>
+
 
 
 </div>

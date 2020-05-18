@@ -109,7 +109,7 @@ class NewsLetterTask(models.Model):
     send_date = models.DateTimeField(verbose_name=_("Send date"))
     sent = models.BooleanField(default=False, verbose_name=_("Sent"))
     total_sent = models.SmallIntegerField(default=0)
-    calc_filters = models.BooleanField(default=True, verbose_name=_('Calculate filters again before start send email') )
+
     def __str__(self):
         return "%s (%s)"%( self.send_date.strftime("%m/%d/%Y, %H:%M:%S"),
         _('Sent') if self.sent else _("Enqueue"))

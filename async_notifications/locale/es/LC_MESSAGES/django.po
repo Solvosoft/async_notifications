@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: async_notification\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-29 00:19-0600\n"
-"PO-Revision-Date: 2020-02-29 00:21-0600\n"
+"POT-Creation-Date: 2020-05-17 19:24-0600\n"
+"PO-Revision-Date: 2020-05-17 19:31-0600\n"
 "Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
 "Language-Team: ES <info@solvosoft.com>\n"
 "Language: es\n"
@@ -19,129 +19,211 @@ msgstr ""
 "X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:16 models.py:16
+#: async_notifications/admin.py:17 async_notifications/models.py:17
 msgid "User"
 msgstr "Usuario"
 
-#: admin.py:21
+#: async_notifications/admin.py:22
 msgid "All mails"
 msgstr "Todos los correos"
 
-#: admin.py:22
+#: async_notifications/admin.py:23
 msgid "My mails"
 msgstr "Mis correos"
 
-#: admin.py:73
+#: async_notifications/admin.py:74
 msgid "Send email now"
 msgstr "Enviar correo ahora"
 
-#: admin.py:78
+#: async_notifications/admin.py:79
 msgid " and more"
-msgstr "y más"
+msgstr " y más"
 
-#: admin.py:80
+#: async_notifications/admin.py:81
 msgid "Recipients"
 msgstr "Lista de recibo"
 
-#: admin.py:112
+#: async_notifications/admin.py:113
 msgid "Template context"
 msgstr "Contexto de plantilla"
 
-#: apps.py:7
+#: async_notifications/apps.py:7
 msgid "Email Notification"
 msgstr "Notificación por correo"
 
-#: forms.py:19 models.py:12
+#: async_notifications/forms.py:22 async_notifications/models.py:13
+#: async_notifications/models.py:91
 msgid "Recipient list"
 msgstr "Lista de recibo"
 
-#: forms.py:20 forms.py:33
+#: async_notifications/forms.py:23 async_notifications/forms.py:36
 msgid "Bcc Recipient list"
 msgstr "Copia oculta a carbón"
 
-#: forms.py:21 forms.py:34
+#: async_notifications/forms.py:24 async_notifications/forms.py:37
 msgid "CC Recipient list"
 msgstr "CC copia a carbón"
 
-#: lookups.py:108
+#: async_notifications/lookups.py:108
 msgid "Add external email"
 msgstr "Agregar correo externo"
 
-#: lookups.py:127
+#: async_notifications/lookups.py:127
 msgid "External user"
 msgstr "Usuario externo"
 
-#: models.py:9 models.py:39
+#: async_notifications/models.py:10 async_notifications/models.py:40
+#: async_notifications/models.py:89
 msgid "Subject"
 msgstr "Asunto"
 
-#: models.py:10 models.py:40
+#: async_notifications/models.py:11 async_notifications/models.py:41
+#: async_notifications/models.py:70 async_notifications/models.py:90
 msgid "Message"
 msgstr "Mensaje"
 
-#: models.py:14
+#: async_notifications/models.py:15
 msgid "Enqueued"
 msgstr "Encolado"
 
-#: models.py:17
+#: async_notifications/models.py:18 async_notifications/models.py:110
+#: async_notifications/models.py:115
 msgid "Sent"
 msgstr "Enviado"
 
-#: models.py:19
+#: async_notifications/models.py:20 async_notifications/models.py:96
 msgid "File"
 msgstr "Archivo"
 
-#: models.py:20
+#: async_notifications/models.py:21
 msgid "Problems"
 msgstr "Problemas"
 
-#: models.py:22
+#: async_notifications/models.py:23 async_notifications/models.py:98
 msgid "Create datetime"
 msgstr "Fecha de creación"
 
-#: models.py:24 models.py:41
+#: async_notifications/models.py:25 async_notifications/models.py:42
+#: async_notifications/models.py:92
 msgid "Bcc Blind carbon copy list"
 msgstr "Bcc lista de remitentes en copia oculta"
 
-#: models.py:25 models.py:42
+#: async_notifications/models.py:26 async_notifications/models.py:43
+#: async_notifications/models.py:93
 msgid "Cc Carbon Copy list"
 msgstr "CC lista de remitentes en copia a carbón"
 
-#: models.py:28
+#: async_notifications/models.py:29
 msgid "sent"
 msgstr "enviado"
 
-#: models.py:28
+#: async_notifications/models.py:29
 msgid "Not sent"
 msgstr "No enviado"
 
-#: models.py:32
+#: async_notifications/models.py:33
 msgid "Email notification"
 msgstr "Notificación por correo"
 
-#: models.py:33
+#: async_notifications/models.py:34
 msgid "Email notifications"
 msgstr "Notificaciones por correo"
 
-#: models.py:38 models.py:54
+#: async_notifications/models.py:39 async_notifications/models.py:55
 msgid "Code"
 msgstr "Código"
 
-#: models.py:48
+#: async_notifications/models.py:49
 msgid "Email template"
 msgstr "Plantilla de correo"
 
-#: models.py:49
+#: async_notifications/models.py:50
 msgid "Email templates"
 msgstr "Plantillas de correo"
 
-#: models.py:55
+#: async_notifications/models.py:56
 msgid "Context dictionary"
 msgstr "Diccionario de contexto"
 
-#: models.py:61 models.py:62
+#: async_notifications/models.py:62 async_notifications/models.py:63
 msgid "Context of template"
 msgstr "Contexto de la plantilla"
+
+#: async_notifications/models.py:67
+msgid "Template title"
+msgstr "Título de plantilla"
+
+#: async_notifications/models.py:68
+msgid "Template name"
+msgstr "Nombre de plantilla"
+
+#: async_notifications/models.py:69
+msgid "Name used to save template in template system, used to extends"
+msgstr "Nombre es usado para guardar las plantillas en el sistema de plantillas (usado en el extends de Django)"
+
+#: async_notifications/models.py:76
+msgid "Template file path"
+msgstr "Ruta de archivo de plantilla"
+
+#: async_notifications/models.py:77
+msgid "Model base"
+msgstr "Modelo base"
+
+#: async_notifications/models.py:78
+msgid "Use this model as base for news"
+msgstr "Use este modelo como base para los boletines"
+
+#: async_notifications/models.py:84
+msgid "News Letter base template"
+msgstr "Plantilla base de los boletines"
+
+#: async_notifications/models.py:85
+msgid "News Letter base templates"
+msgstr "Plantillas base de los boletines"
+
+#: async_notifications/models.py:94
+msgid "Creator"
+msgstr "Creador"
+
+#: async_notifications/models.py:104 async_notifications/models.py:118
+msgid "News Letter template"
+msgstr "Plantilla de boletín"
+
+#: async_notifications/models.py:105 async_notifications/models.py:119
+msgid "News Letter templates"
+msgstr "Plantillas de boletines"
+
+#: async_notifications/models.py:109
+msgid "Send date"
+msgstr "Fecha de envío"
+
+#: async_notifications/models.py:112
+msgid "Calculate filters again before start send email"
+msgstr "Calcular fi"
+
+#: async_notifications/models.py:115
+msgid "Enqueue"
+msgstr "En cola"
+
+#: async_notifications/templates/admin/async_notifications/newsletter/change_form.html:23
+msgid "Body"
+msgstr "Caracteristicas"
+
+#: async_notifications/templates/admin/async_notifications/newsletter/change_form.html:24
+msgid "Filters"
+msgstr "Filtros"
+
+#: async_notifications/templates/admin/async_notifications/newsletter/change_form.html:41
+msgid "Apply filter"
+msgstr "Aplicar filtros"
+
+#: async_notifications/templates/admin/async_notifications/newsletter/change_form.html:46
+msgid "Show emails"
+msgstr "Ver correos"
+
+#: async_notifications/templates/newsletters/news_context.html:8
+msgid "Select one and will be copied to clipboard"
+msgstr "Seleccione uno y será copiado en el portapapeles"
 
 #~ msgid "Write email"
 #~ msgstr "Escribir correo"
@@ -160,9 +242,6 @@ msgstr "Contexto de la plantilla"
 
 #~ msgid "Close"
 #~ msgstr "Cerrar"
-
-#~ msgid "Send email"
-#~ msgstr "Enviar correo"
 
 #~ msgid "Article url"
 #~ msgstr "Url de artículo"

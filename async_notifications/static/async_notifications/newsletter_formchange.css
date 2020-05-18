@@ -128,3 +128,46 @@
     padding: 10px 15px!important;
     margin: 2px 2px!important;
 }
+
+.datafilter{
+    width: 100%;
+}
+
+.emaillu {
+  list-style-type: : none;
+  margin: 10px 10px;
+  padding: 0;
+  text-align: left
+}
+
+.emaillu li{
+  list-style: none;
+  display: inline-block;
+  width: 30%
+}
+
+@media only screen and (max-width: 900px) {
+.emaillu li{
+  width: 50%;
+ }
+}
+
+@media only screen and (max-width: 600px) {
+.emaillu li{
+  width: 100%;
+ }
+}
+
+.emailexc, .emailexcinf {
+  margin-right: 20px;
+  color: red
+}
+.emailhide{
+    display: none !important;
+}
+
+.limemfil{
+    color: lightblue;
+    font-size: 0.8em;
+
+}

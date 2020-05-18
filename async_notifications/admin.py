@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 import json
 import os
-from async_notifications.tasks import send_email
+from async_notifications.tasks import send_email, task_send_newsletter
 from django.conf import settings
 from .forms import NotificationForm, TemplateForm, NewsLetterForm, NewsLetterAdminForm
 from .models import EmailNotification, EmailTemplate, TemplateContext, NewsLetterTask, NewsLetter, NewsLetterTemplate
@@ -113,25 +113,34 @@ class EmailTemplateAdmin(admin.ModelAdmin):
     template_context.short_description = _("Template context")
 
 
-
 class NewsTask(admin.TabularInline):
     model = NewsLetterTask
     extra = 1
-    fields = ['send_date', 'calc_filters']
+    fields = ['send_date']
+
 
 class NewsLetterAdmin(admin.ModelAdmin):
     inlines = [NewsTask]
     form=NewsLetterForm
+    list_display = ('subject', 'template',)
     fieldsets = (
         (None, {
             'fields': ('template', 'subject', 'contex_template', 'message', 'file')
         }),
         ('Recipients', {
             'classes': ('collapse', ),
-            'fields': ('recipient',  'bcc', 'cc' ),
+            'fields': ('recipient',   ),#'bcc', 'cc'
         }),
     )
     readonly_fields = ('contex_template', )
+    actions = ['send_newsletter']
+
+    def send_newsletter(self, request, queryset):
+        for obj in queryset:
+            task_send_newsletter(obj.pk)
+           # task_send_newsletter.delay(obj.pk)
+
+    send_newsletter.short_description = "Send newsletter"
 
     def save_model(self, request, obj, form, change):
         if not hasattr(obj, 'creator') or obj.creator is None:

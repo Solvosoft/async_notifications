@@ -14,6 +14,7 @@ import os
 
 from .mail_utils import get_all_emails
 from .models import EmailNotification
+from .newsletter_utils import task_send_newsletter_fnc
 from .settings import MAX_PER_MAIL, SEND_ONLY_EMAIL, SMTP_DEBUG
 
 app = importlib.import_module(settings.CELERY_MODULE).app
@@ -90,3 +91,8 @@ def send_daily():
         except Exception as e:
             print(e)
     return "sent %d"%(sent,)
+
+
+@app.task
+def task_send_newsletter(pk):
+    task_send_newsletter_fnc(pk)
