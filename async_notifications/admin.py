@@ -43,6 +43,7 @@ class MyNotification(admin.ModelAdmin):
 
     list_display = ("subject", "recipient_emails", "enqueued",
                     "sent", "problems", 'create_datetime')
+    search_fields = ('subject', 'message__icontains')
 
     readonly_fields = ['recipient_emails']
     actions = ['send_now']
