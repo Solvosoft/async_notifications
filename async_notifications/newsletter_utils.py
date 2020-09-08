@@ -82,11 +82,13 @@ def get_connections_config():
     configs = asettings.NEWSLETTER_SEVER_CONFIGS or {}
     return configs
 
+
 def get_from_email():
     configs = asettings.NEWSLETTER_SEVER_CONFIGS or {}
     if 'from' in configs:
         return configs['from']
     return settings.DEFAULT_FROM_EMAIL
+
 
 def send_newsletter(newsletter):
     logs = {'exceptions': [], 'success': []}
@@ -108,12 +110,14 @@ def send_newsletter(newsletter):
         logs['total_sent'] = connection.send_messages(messages)
     return logs
 
+
 def task_send_newsletter_fnc(pk):
     newsletter = NewsLetter.objects.filter(pk=pk).first()
     logs={'total_sent': 0}
     if newsletter:
         logs = send_newsletter(newsletter)
     return logs['total_sent']
+
 
 def send_newsletter_task(pk):
     task = NewsLetterTask.object.filter(pk=pk).first()

@@ -104,11 +104,13 @@ class NewsLetter(models.Model):
         verbose_name = _("News Letter template")
         verbose_name_plural = _("News Letter templates")
 
+
 class NewsLetterTask(models.Model):
     template = models.ForeignKey(NewsLetter, on_delete=models.CASCADE)
     send_date = models.DateTimeField(verbose_name=_("Send date"))
     sent = models.BooleanField(default=False, verbose_name=_("Sent"))
     total_sent = models.SmallIntegerField(default=0)
+    task_id = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return "%s (%s)"%( self.send_date.strftime("%m/%d/%Y, %H:%M:%S"),

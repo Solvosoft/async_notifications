@@ -95,4 +95,4 @@ def send_daily():
 
 @app.task
 def task_send_newsletter(pk):
-    task_send_newsletter_fnc(pk)
+    return task_send_newsletter_fnc(pk)

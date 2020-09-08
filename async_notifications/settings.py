@@ -60,8 +60,7 @@ EXTRA_CC = getattr(settings, 'ASYNC_CC', None)
 SEND_ONLY_EMAIL = getattr(settings, 'ASYNC_SEND_ONLY_EMAIL', None)
 SMTP_DEBUG = getattr(settings, 'ASYNC_SMTP_DEBUG', False)
 
-TEMPLATES_NOTIFICATION = getattr(settings, 'ASYNC_TEMPLATES_NOTIFICATION',
-         None)
+TEMPLATES_NOTIFICATION = getattr(settings, 'ASYNC_TEMPLATES_NOTIFICATION', None)
 
 if TEMPLATES_NOTIFICATION is None:
     import pkg_resources
