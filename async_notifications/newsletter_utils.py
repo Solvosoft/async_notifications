@@ -62,10 +62,17 @@ def get_subject_content(newsletter, context):
     dev = message.render(c)
     return dev
 
-def get_newsletter_content(newsletter):
+def extract_separedcomma_emails(text):
+    return text.split(', ')
+
+def get_newsletter_content(newsletter, useform=True):
     inst = get_basemodel_info(newsletter.template.model_base)
     klass = inst[2]()
-    emailsiter = extract_template(newsletter, klass)
+    if useform:
+        emailsiter = extract_template(newsletter, klass)
+    else:
+        emailsiter = extract_separedcomma_emails(newsletter.recipient)
+
     data, extends = get_data(newsletter.template, newsletter.message)
 
     for inst, email in emailsiter:
@@ -77,6 +84,7 @@ def get_newsletter_content(newsletter):
         subject = get_subject_content(newsletter, context)
 
         yield email, template, subject
+
 
 def get_connections_config():
     configs = asettings.NEWSLETTER_SEVER_CONFIGS or {}
@@ -96,7 +104,7 @@ def send_newsletter(newsletter):
     with mail.get_connection(**get_connections_config()) as connection:
         if SMTP_DEBUG:
             connection.connection.set_debuglevel(1)
-        for email, messagetxt, subject in get_newsletter_content(newsletter):
+        for email, messagetxt, subject in get_newsletter_content(newsletter, useform=False):
             message = mail.EmailMessage(subject, messagetxt,
                                         get_from_email(),
                                         [email],
