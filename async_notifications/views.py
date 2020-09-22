@@ -43,6 +43,7 @@ def fromnewscontext(request, pk):
             media = str(f.media)
     return JsonResponse({'form': dev, 'media': media })
 
+
 def preview_email_newsletters(request, pk):
     dev = []
     obj = NewsLetterTemplate.objects.filter(pk=pk).first()

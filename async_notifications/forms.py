@@ -32,6 +32,7 @@ class NotificationForm(forms.ModelForm):
             'message': TEXT_AREA_WIDGET
         }
 
+
 class TemplateForm(forms.ModelForm):
     bcc = EmailLookup('emails', label=_('Bcc Recipient list'), required=False)
     cc = EmailLookup('emails', label=_('CC Recipient list'), required=False)
@@ -43,12 +44,13 @@ class TemplateForm(forms.ModelForm):
             'message': TEXT_AREA_WIDGET
         }
 
+
 class NewsLetterForm(forms.ModelForm):
 
     class Meta:
         model = NewsLetter
         fields = ('template', 'subject', 'message', 'file',
-                  'recipient', 'bcc', 'cc')
+                  'recipient', 'bcc', 'cc', 'filters')
         widgets = {
             'message': NEWSLETTER_WIDGET
         }

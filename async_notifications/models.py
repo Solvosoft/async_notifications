@@ -84,6 +84,7 @@ class NewsLetterTemplate(models.Model):
         verbose_name = _("News Letter base template")
         verbose_name_plural = _("News Letter base templates")
 
+
 class NewsLetter(models.Model):
     template = models.ForeignKey(NewsLetterTemplate, on_delete=models.CASCADE)
     subject = models.CharField(max_length=500, verbose_name=_("Subject"))
@@ -96,6 +97,7 @@ class NewsLetter(models.Model):
                             blank=True, verbose_name=_("File"))
     create_datetime = models.DateTimeField(auto_now_add=True,
                                            verbose_name=_("Create datetime"))
+    filters = models.CharField(max_length=500, verbose_name=_("Form filters"), null=True, blank=True)
 
     def __str__(self):
         return self.subject
