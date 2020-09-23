@@ -73,7 +73,6 @@ class NewsLetterTemplate(models.Model):
                                <br> Osea el name de este modelo es usado para crear plantillas en disco, por lo que pueden usarse para extender.
                                <br> Recuerde que extends solo puede usarse al inicio de message
                                <br><strong>Nota: </strong> al usar ASYNC_TEMPLATES_NOTIFICATION en settings se modifica el prefijo de la plantilla (posiblemente eliminando async_notifications/)'''))
-    file_path = models.TextField(verbose_name=_("Template file path"), null=True, blank=True)
     model_base = models.CharField(max_length=150, verbose_name=_("Model base"),
                                   help_text=_("Use this model as base for news"))
 

@@ -23,19 +23,6 @@ def check_email(sender, **kwargs):
     if kwargs['created'] and obj.enqueued is False:
         send_email.delay(obj.pk)
 
-@receiver(post_delete, sender=NewsLetterTemplate)
-def delete_file_news(sender, **kwargs):
-    instance = kwargs['instance']
-    if instance.file_path is None:
-        from async_notifications import settings as asettings
-        filepath = "%s%s.html" % (asettings.TEMPLATES_NOTIFICATION,
-                                  instance.name)
-    else:
-        filepath = instance.file_path
-
-    if os.path.exists(filepath):
-        os.remove(filepath)
-
 
 @receiver(post_save, sender=NewsLetterTask)
 def add_newsletter_task(sender, **kwargs):

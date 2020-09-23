@@ -11,10 +11,8 @@ from .settings import SMTP_DEBUG
 from django.conf import settings
 import os
 
-def render_template_newsletter(data, extends):
+def render_template_newsletter(data):
     markup = filter_func(data)
-    if extends:
-        markup = extends+markup
     try:
         message = Template(markup)
         dev = message.render(Context({}))
@@ -32,14 +30,7 @@ def get_data(templateid, data):
             template=NewsLetterTemplate.objects.filter(pk=templateid).first()
         else:
             template=templateid
-        if template:
-            if 'async_notifications' in template.file_path:
-                parent = "async_notifications/%s.html"%(template.name)
-            else:
-                parent = get_template_name_from_path(template.file_path)
-    if parent:
-        extends = '{% extends "'+parent+'" %}\n\n'
-    return (data, extends)
+    return (data)
 
 
 
@@ -72,11 +63,11 @@ def get_newsletter_content(newsletter, useform=True):
     else:
         emailsiter = extract_separedcomma_emails(newsletter.recipient)
 
-    data, extends = get_data(newsletter.template, newsletter.message)
+    data = get_data(newsletter.template, newsletter.message)
 
     for email in emailsiter:
 
-        template = render_template_newsletter(data, extends)
+        template = render_template_newsletter(data)
         subject = get_subject_content(newsletter)
 
         yield email, template, subject

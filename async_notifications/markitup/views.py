@@ -19,10 +19,9 @@ def get_template_cookie_value(request):
 
 def preview_newsletter(request):
     templateid = get_template_cookie_value(request)
-    data, extends = get_data(templateid, request.POST.get('data', ''))
+    data = get_data(templateid)
 
-    context = {'membresia':DummyContextObject('membresia')}
-    dev = render_template_newsletter(data, extends, context)
+    dev = render_template_newsletter(data)
         #response= get_exception_response(request, get_resolver(get_urlconf()), 500, e)
         #response.status_code = 200
         #return response

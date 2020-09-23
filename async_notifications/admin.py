@@ -161,32 +161,7 @@ class NewsLetterAdmin(admin.ModelAdmin):
 
 class NewsLetterTemplateAdmin(admin.ModelAdmin):
     prepopulated_fields = {"name": ("title",)}
-    exclude = ['file_path']
     form = NewsLetterAdminForm
-    actions = ['write_templates']
-
-    def save_model(self, request, obj, form, change):
-        if obj.file_path is None or not obj.file_path:
-            from async_notifications import settings as asettings
-            filepath = "%s%s.html"%(asettings.TEMPLATES_NOTIFICATION, obj.name)
-            obj.file_path = filepath
-        else:
-            filepath = obj.file_path
-        with open(filepath, 'w') as arch:
-            arch.write(obj.message)
-        return super().save_model(request, obj, form, change)
-
-    def write_templates(self, request, queryset):
-        from async_notifications import settings as asettings
-        for obj in queryset:
-            filepath = "%s%s.html"%(asettings.TEMPLATES_NOTIFICATION, obj.name)
-            obj.file_path = filepath
-            with open(filepath, 'w') as arch:
-                arch.write(obj.message)
-            obj.save()
-    write_templates.short_description = "Write template on disc"
-
-
 
 # admin.site.register(TemplateContext)
 admin.site.register(EmailTemplate, EmailTemplateAdmin)
