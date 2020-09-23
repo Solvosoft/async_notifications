@@ -11,14 +11,13 @@ from .settings import SMTP_DEBUG
 from django.conf import settings
 import os
 
-def render_template_newsletter(data, extends, context):
+def render_template_newsletter(data, extends):
     markup = filter_func(data)
     if extends:
         markup = extends+markup
     try:
         message = Template(markup)
-        c = Context(context)
-        dev = message.render(c)
+        dev = message.render(Context({}))
     except Exception as e:
         dev = "Error ocurrido en: %s con el tipo <pre>%s</pre>"%(str(e), str(e.__class__.__name__))
     return dev
@@ -56,10 +55,9 @@ def extract_template(obj,klass):
     klass.get_queryset()
     return klass.get_emails_instance()
 
-def get_subject_content(newsletter, context):
+def get_subject_content(newsletter):
     message = Template(newsletter.subject)
-    c = Context(context)
-    dev = message.render(c)
+    dev = message.render(Context({}))
     return dev
 
 def extract_separedcomma_emails(text):
@@ -68,6 +66,7 @@ def extract_separedcomma_emails(text):
 def get_newsletter_content(newsletter, useform=True):
     inst = get_basemodel_info(newsletter.template.model_base)
     klass = inst[2]()
+
     if useform:
         emailsiter = extract_template(newsletter, klass)
     else:
@@ -75,13 +74,10 @@ def get_newsletter_content(newsletter, useform=True):
 
     data, extends = get_data(newsletter.template, newsletter.message)
 
-    for inst, email in emailsiter:
-        context = {
-            'email':email,
-            klass.name: inst
-        }
-        template = render_template_newsletter(data, extends, context)
-        subject = get_subject_content(newsletter, context)
+    for email in emailsiter:
+
+        template = render_template_newsletter(data, extends)
+        subject = get_subject_content(newsletter)
 
         yield email, template, subject
 
