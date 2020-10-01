@@ -28,7 +28,7 @@ app.conf.CELERYBEAT_SCHEDULE = {
     'send_daily_emails': {
         'task': 'async_notifications.tasks.send_daily',
         #'schedule': crontab(minute=30, hour=0),
-        'schedule': crontab(minute='*/3'),
+        'schedule': crontab(minute='*/1'),
     },
 }
 app.conf.CELERY_TIMEZONE = settings.TIME_ZONE

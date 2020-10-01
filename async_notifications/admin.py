@@ -126,14 +126,13 @@ class NewsLetterAdmin(admin.ModelAdmin):
     list_display = ('subject', 'template',)
     fieldsets = (
         (None, {
-            'fields': ('template', 'subject', 'contex_template', 'message', 'file')
+            'fields': ('template', 'subject', 'message', 'file')
         }),
         ('Recipients', {
             'classes': ('collapse', ),
             'fields': ('recipient',   ),#'bcc', 'cc'
         }),
     )
-    readonly_fields = ('contex_template', )
     actions = ['send_newsletter']
 
     def send_newsletter(self, request, queryset):
@@ -148,22 +147,12 @@ class NewsLetterAdmin(admin.ModelAdmin):
             obj.creator = request.user
         return super().save_model(request, obj, form, change)
 
-    def contex_template(self, obj):
-        if obj and obj.pk:
-            regcont = get_newsletter_context(obj.template.model_base)
-        else:
-            regcont = []
-        return mark_safe(render_to_string('newsletters/news_context.html',
-                                          context={'object': obj,
-                                                   'cinstance': regcont}))
-    contex_template.short_description = "contexto"
 
 
 class NewsLetterTemplateAdmin(admin.ModelAdmin):
     prepopulated_fields = {"name": ("title",)}
     form = NewsLetterAdminForm
 
-# admin.site.register(TemplateContext)
 admin.site.register(EmailTemplate, EmailTemplateAdmin)
 admin.site.register(EmailNotification, MyNotification)
 admin.site.register(NewsLetter, NewsLetterAdmin)

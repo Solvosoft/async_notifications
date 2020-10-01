@@ -1,28 +1,37 @@
 # encoding: utf-8
 from __future__ import unicode_literals
-
-from collections import OrderedDict
-
-from .settings import EXTRA_BCC, EXTRA_CC
-
 '''
 Created on 20/12/2015
 
 @author: luisza
 '''
 
+from copy import deepcopy
+
+from .settings import EXTRA_BCC, EXTRA_CC
+
 from django.template import Context, Template
 from .models import EmailTemplate, EmailNotification
 from django.apps import apps
 from django.template.exceptions import TemplateDoesNotExist
 import six
+from . import settings
+from django.utils.module_loading import import_string
 
 NEWS_CONTEXT_ELEMENT = {}
 NEWS_BASE_MODELS = {}
 
+
+def import_klass_news_base_models(data):
+    data = deepcopy(data)
+    for key in data:
+        data[key][2] = import_string(data[key][2])
+    return data
+
+NEWS_BASE_MODELS.update(import_klass_news_base_models(settings.NEWS_BASE_MODELS))
+
 def hexify(text):
     return "".join([str(hex(ord(x))).replace("0x", "") for x in text])
-
 
 def unhexify(text):
     if "@" in text:

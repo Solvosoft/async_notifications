@@ -62,15 +62,15 @@ class NewsLetterForm(forms.ModelForm):
         js = ['//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js',
             'async_notifications/previewupdater.js']
 
+
 class NewsLetterAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         dev = super().__init__(*args, **kwargs)
-
         self.fields['model_base'] = forms.ChoiceField(
             choices=get_basemodels_dict(),
             widget=forms.Select
         )
-
+        return dev
 
     class Meta:
         model = NewsLetterTemplate

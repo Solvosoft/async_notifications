@@ -136,6 +136,9 @@ EMAIL_PORT="1025"
 ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
 ASYNC_NEWSLETTER_WIDGET = 'markitup.widgets.AdminMarkItUpWidget'
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
+ASYNC_NEWS_BASE_MODELS = {
+    'async_notifications.EmailNotification': ['async_notifications.EmailNotification', 'Emails', 'demo.forms.EmailExampleForm'],
+}
 
 # docker run -d --rm --name  redis -p 6379:6379 -d redis
 # pip install redis

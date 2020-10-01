@@ -20,10 +20,11 @@ from ajax_select import urls as ajax_select_urls
 
 from async_notifications.markitup.views import preview_newsletter
 from demo.views import index
-
+from async_notifications.urls import urlpatterns as async_notifications_urls
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
     url(r'^ajax_select/', include(ajax_select_urls)),
+    url(r'^notifications/', include(async_notifications_urls)),
     url(r'^markitup/preview/$', preview_newsletter, name="markitup_preview")
 ]

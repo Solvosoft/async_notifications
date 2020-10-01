@@ -2,7 +2,8 @@
 {% load i18n static %}
 
 {% block extrahead %}{{ block.super }}
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <link href="{% static 'async_notifications/newsletter_formchange.css' %}"  type="text/css" media="screen" rel="stylesheet" >
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"  type="text/css" media="screen" rel="stylesheet" >
 <script src="//cdn.jsdelivr.net/npm/tabs@0.2.0/index.min.js"></script>
@@ -66,4 +67,5 @@
 
 	</div>
 </div>
+<div id="id_templatecontext" data-url="{% url 'updatenewscontext' '0' %}">
 {% endblock %}
