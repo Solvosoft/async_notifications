@@ -30,10 +30,10 @@ def get_mails_from_group(group_name):
             email = getattr(group, name_field)
     if email:
         return [email]
-
-    users = User.objects.filter(**{USER_LOOKUP_FIELDS['group_lookup']: name})
-    return [u.email for u in users]
-
+    if 'group_lookup' in  USER_LOOKUP_FIELDS:
+        users = User.objects.filter(**{USER_LOOKUP_FIELDS['group_lookup']: name})
+        return [u.email for u in users]
+    return []
 
 def get_all_emails(text):
     if text is None:

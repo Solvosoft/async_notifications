@@ -90,6 +90,8 @@ def send_daily():
             sent += send_email(email)
         except Exception as e:
             print(e)
+            import traceback
+            traceback.print_exc()
     return "sent %d"%(sent,)
 
 
