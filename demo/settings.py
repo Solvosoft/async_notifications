@@ -151,3 +151,5 @@ ASYNC_BCC  = 'ejemplo@luisza.com'
 ASYNC_CC = 'ejemplo@luisza.com,ejemplo2@luisza.com'
 
 MARKITUP_SET = 'markitup/sets/markdown/'
+
+ASYNC_NEWSLETTER_HEADER = {'Reply-To': 'contact@example.com'}

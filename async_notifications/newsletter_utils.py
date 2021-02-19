@@ -84,6 +84,12 @@ def get_from_email():
         return configs['from']
     return settings.DEFAULT_FROM_EMAIL
 
+def get_headers():
+    headers= asettings.NEWSLETTER_HEADER or {}
+
+    if headers == {}:
+        return None
+    return headers
 
 def send_newsletter(newsletter):
     logs = {'exceptions': [], 'success': []}
@@ -91,17 +97,20 @@ def send_newsletter(newsletter):
     with mail.get_connection(**get_connections_config()) as connection:
         if SMTP_DEBUG:
             connection.connection.set_debuglevel(1)
+        headers = get_headers()
         for email, messagetxt, subject in get_newsletter_content(newsletter, useform=False):
             message = mail.EmailMessage(subject, messagetxt,
                                         get_from_email(),
                                         [email],
-                                        connection=connection
+                                        connection=connection,
+                                        headers=headers
                                         )
             message.content_subtype = "html"
             if newsletter.file:
                 if os.path.isfile(settings.MEDIA_ROOT + newsletter.file.name):
                     message.attach_file(settings.MEDIA_ROOT + newsletter.file.name)
             messages.append(message)
+        connection.fail_silently = True
         logs['total_sent'] = connection.send_messages(messages)
     return logs
 
