@@ -7,14 +7,16 @@ Free as freedom will be 25/9/2016
 '''
 
 from __future__ import unicode_literals
-from django import forms
 
+from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 from .models import EmailNotification, EmailTemplate, NewsLetter, NewsLetterTemplate
 from .settings import TEXT_AREA_WIDGET, NEWSLETTER_WIDGET
 from .utils import get_basemodels_dict
 from .widgets import EmailLookup
-from django.utils.translation import ugettext_lazy as _
+
+
 #from ajax_select.fields import AutoCompleteSelectMultipleField
 
 

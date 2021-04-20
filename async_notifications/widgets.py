@@ -9,6 +9,7 @@ Free as freedom will be 25/9/2016
 from __future__ import unicode_literals
 from ajax_select.fields import (AutoCompleteSelectMultipleField,
                                 AutoCompleteSelectMultipleWidget)
+from django.core.exceptions import ValidationError
 
 
 class EmailLookupWidget(AutoCompleteSelectMultipleWidget):
@@ -25,4 +26,11 @@ class EmailLookupWidget(AutoCompleteSelectMultipleWidget):
 
 
 class EmailLookup(AutoCompleteSelectMultipleField):
-    pass
+    def clean(self, value):
+        if not value and self.required:
+            raise ValidationError(self.error_messages['required'])
+        if not value:
+            return None
+        return value  # a list of primary keys from widget value_from_datadict
+
+

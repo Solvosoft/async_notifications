@@ -83,7 +83,7 @@ class MyNotification(admin.ModelAdmin):
 
 
 class EmailTemplateAdmin(admin.ModelAdmin):
-    field = ('code', 'subject', 'message', 'template_context')
+    
     list_display = ('code', 'subject')
     search_fields = ['code', 'subject']
     readonly_fields = ['template_context']
