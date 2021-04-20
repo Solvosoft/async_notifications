@@ -42,7 +42,7 @@ setup(
     install_requires=[
 	'celery>4.2',
 	'django>2.0',
-	'django-ajax-selects==1.9.1',
+	'django-ajax-selects>=1.9.1',
 	'six',
 	'django-classy-tags==0.8.0'
     ],
