@@ -9,41 +9,40 @@ Free as freedom will be 25/9/2016
 from __future__ import unicode_literals
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 from .models import EmailNotification, EmailTemplate, NewsLetter, NewsLetterTemplate
 from .settings import TEXT_AREA_WIDGET, NEWSLETTER_WIDGET
 from .utils import get_basemodels_dict
-from .widgets import EmailLookup
+from .widgets import EmailLookup, SelectTagifyWidget
 
 
 #from ajax_select.fields import AutoCompleteSelectMultipleField
 
 
 class NotificationForm(forms.ModelForm):
-    recipient = EmailLookup('emails', label=_('Recipient list'))
-    bcc = EmailLookup('emails', label=_('Bcc Recipient list'), required=False)
-    cc = EmailLookup('emails', label=_('CC Recipient list'), required=False)
-
     class Meta:
         model = EmailNotification
         fields = ("subject", "enqueued", "sent", "problems",
                   "message", "recipient", 'bcc', 'cc',
                   "file")
         widgets = {
-            'message': TEXT_AREA_WIDGET
+            'message': TEXT_AREA_WIDGET,
+            'recipient': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
+            'bcc': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
+            'cc': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
         }
 
 
 class TemplateForm(forms.ModelForm):
-    bcc = EmailLookup('emails', label=_('Bcc Recipient list'), required=False)
-    cc = EmailLookup('emails', label=_('CC Recipient list'), required=False)
-
     class Meta:
         model = EmailTemplate
         fields = ('code', 'subject', 'message', 'bcc', 'cc')
         widgets = {
-            'message': TEXT_AREA_WIDGET
+            'message': TEXT_AREA_WIDGET,
+            'bcc': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
+            'cc': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
         }
 
 
@@ -54,7 +53,10 @@ class NewsLetterForm(forms.ModelForm):
         fields = ('template', 'subject', 'message', 'file',
                   'recipient', 'bcc', 'cc', 'filters')
         widgets = {
-            'message': NEWSLETTER_WIDGET
+            'message': NEWSLETTER_WIDGET,
+            'recipient': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
+            'bcc': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
+            'cc': SelectTagifyWidget.newwidget(reverse_lazy('async_notifications:api_emails')),
         }
 
     class Media:
@@ -77,3 +79,7 @@ class NewsLetterAdminForm(forms.ModelForm):
     class Meta:
         model = NewsLetterTemplate
         fields = '__all__'
+
+
+class TagifyFormValue(forms.Form):
+    value=forms.CharField()

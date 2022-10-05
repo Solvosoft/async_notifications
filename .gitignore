@@ -56,3 +56,5 @@ docs/_build/
 # PyBuilder
 target/
 .idea/
+/celerybeat-schedule.db
+/db.sqlite3

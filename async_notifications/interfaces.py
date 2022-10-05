@@ -17,7 +17,7 @@ class NewsLetterInterface:
 
     def get_exclude(self):
         exclude = {}
-        excludeemail = self.form.cleaned_data['excludeemail']
+        excludeemail = self.form.cleaned_data.get('excludeemail', '')
         if excludeemail:
             exclude[self.field_map['exclude']['excludeemail']] = excludeemail.replace(" ", '').split(',')
             if not exclude[self.field_map['exclude']['excludeemail']][0]:

@@ -14,17 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import url, include
-from ajax_select import urls as ajax_select_urls
-
+from django.urls import path, include
 from async_notifications.markitup.views import preview_newsletter
+
 from demo.views import index
-from async_notifications.urls import urlpatterns as async_notifications_urls
+
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
-    url(r'^ajax_select/', include(ajax_select_urls)),
-    url(r'^notifications/', include(async_notifications_urls)),
-    url(r'^markitup/preview/$', preview_newsletter, name="markitup_preview")
+    path('notifications/', include('async_notifications.urls', namespace='async_notifications')),
+    path('markitup/preview', preview_newsletter, name="markitup_preview")
 ]

@@ -1,16 +1,14 @@
-from django.contrib import admin
-from django.db import models
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
 import json
-import os
-from async_notifications.tasks import send_email, task_send_newsletter
+
 from django.conf import settings
+from django.contrib import admin
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
+
+from async_notifications.tasks import send_email, task_send_newsletter
 from .forms import NotificationForm, TemplateForm, NewsLetterForm, NewsLetterAdminForm
 from .models import EmailNotification, EmailTemplate, TemplateContext, NewsLetterTask, NewsLetter, NewsLetterTemplate
-from .settings import TEXT_AREA_WIDGET, NEWS_CONTEXT_INSTANCE
-from .utils import extract_emails, register_model, get_newsletter_context
+from .utils import extract_emails
 
 
 class UserAdminListFilter(admin.SimpleListFilter):

@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'async_notifications',
-    'ajax_select',
     'ckeditor',
     'markitup'
 ]

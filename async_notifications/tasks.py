@@ -65,6 +65,7 @@ def send_email(obj):
             obj = EmailNotification.objects.get(pk=obj)
         except:
             return
+
     if SEND_ONLY_EMAIL:
         mails = SEND_ONLY_EMAIL
         bcc=None
@@ -73,6 +74,7 @@ def send_email(obj):
         mails = list(get_all_emails(obj.recipient))
         bcc = list(get_all_emails(obj.bcc))
         cc = list(get_all_emails(obj.cc))
+
     while len(mails) > MAX_PER_MAIL:
         s_mails = mails[:MAX_PER_MAIL]
         mails = mails[MAX_PER_MAIL:]

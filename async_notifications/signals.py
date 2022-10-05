@@ -7,10 +7,9 @@ Created on 21/12/2015
 @author: luisza
 '''
 from django.db.models.signals import post_save, post_delete
-from async_notifications.models import EmailNotification, NewsLetterTemplate, NewsLetterTask
+from async_notifications.models import EmailNotification, NewsLetterTask
 from django.dispatch.dispatcher import receiver
 from async_notifications.tasks import send_email, task_send_newsletter
-import os
 import importlib
 from django.conf import settings
 

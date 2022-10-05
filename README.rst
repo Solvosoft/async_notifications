@@ -33,7 +33,6 @@ Installation
 
         INSTALLED_APPS = [
             ...
-            'ajax_select',
             'async_notifications'
         ]
 
@@ -42,10 +41,10 @@ Installation
     .. code:: python
 
         from django.conf.urls import url, include
-        from ajax_select import urls as ajax_select_urls
+
         urlpatterns = [
             ...
-            url(r'^ajax_select/', include(ajax_select_urls)),
+            url(r'^async_notifications/', include('async_notifications.urls')),
         ]
    
 #. It's really important set *CELERY_MODULE* pointing to your project celery file, because it's needed for assing task to the current project, and configure some default celery options
@@ -55,7 +54,7 @@ Installation
         # settings.py
         CELERY_MODULE = "demo.celery"
         CELERY_TIMEZONE = TIME_ZONE
-        CELERY_ACCEPT_CONTENT = ['pickle', 'json']
+        CELERY_ACCEPT_CONTENT = ['json']
         
 
 

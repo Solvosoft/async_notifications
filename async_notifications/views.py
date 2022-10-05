@@ -1,6 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.http.request import QueryDict
+
+from async_notifications.forms import TagifyFormValue
+from async_notifications.lookups import FindEmailsByText
 # Create your views here.
 from async_notifications.models import NewsLetterTemplate
 from async_notifications.utils import get_newsletter_context, get_basemodel_info
@@ -56,3 +60,14 @@ def preview_email_newsletters(request, pk):
             klass.get_queryset()
             dev = klass.get_emails()
     return JsonResponse({'emails': dev })
+
+
+@login_required
+def email_to_tagify(request):
+    form=TagifyFormValue(request.GET)
+    form.is_valid()
+    value = form.cleaned_data.get('value', '')
+    query=[]
+    if value:
+        query = FindEmailsByText().get_query(value, request)
+    return JsonResponse(query, safe=False)

@@ -39,10 +39,12 @@ def get_all_emails(text):
     if text is None:
         return []
     mails = extract_emails(text)
+
     gmails = []
     for mail in mails:
         if "@group" in mail:
             mails.remove(mail)
             gmails += get_mails_from_group(mail)
     mails += gmails
+    print(mails, "###############", text)
     return set(mails)

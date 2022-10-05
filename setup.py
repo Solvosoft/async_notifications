@@ -15,7 +15,9 @@ CLASSIFIERS = [
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
     'Topic :: Internet :: WWW/HTTP',
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
 ]
@@ -40,12 +42,9 @@ setup(
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     install_requires=[
-	'celery>4.2',
-	'django>2.0',
-	'django-ajax-selects>=1.9.1',
-	'six',
-	'django-classy-tags==0.8.0'
-    ],
+                    'celery>=5.0',
+                    'django>=3.2',
+                    ],
     packages=find_packages(exclude=["demo"]),
     include_package_data=True,
     zip_safe=False

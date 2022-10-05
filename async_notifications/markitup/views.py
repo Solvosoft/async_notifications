@@ -1,7 +1,6 @@
-from django.core.handlers.exception import get_exception_response
 from django.http import HttpResponse
+
 from async_notifications.newsletter_utils import get_data, render_template_newsletter
-from async_notifications.register import DummyContextObject
 
 
 def get_template_cookie_value(request):
@@ -20,9 +19,5 @@ def get_template_cookie_value(request):
 def preview_newsletter(request):
     templateid = get_template_cookie_value(request)
     data = get_data(templateid, request.POST.get('data', ''))
-
     dev = render_template_newsletter(data)
-        #response= get_exception_response(request, get_resolver(get_urlconf()), 500, e)
-        #response.status_code = 200
-        #return response
     return HttpResponse(dev)

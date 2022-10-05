@@ -1,5 +1,9 @@
 # encoding: utf-8
 from __future__ import unicode_literals
+
+import json
+import re
+
 '''
 Created on 20/12/2015
 
@@ -105,14 +109,12 @@ def send_email_from_template(code, recipient,
 
 
 def extract_emails(text):
-    if isinstance(text, str):
-        mail_list = text.replace(
-            "[", "").replace("]", "").replace("'", "").split(",")
-    else:
-        mail_list = text
-        mail_list = [x.replace('[', '').replace(']', '').replace("'", '') for x in mail_list ]
-    emails = [unhexify(x.strip()) for x in mail_list]
-    return emails
+    try:
+        mails = [item['value'] for item in json.loads(text)]
+    except Exception as e:
+        mails = list(re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', text))
+        mails += list(re.findall(r'\b[A-Za-z0-9._%+-]+@group', text))
+    return mails
 
 
 def get_model(model_name):
