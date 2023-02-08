@@ -32,16 +32,20 @@ def import_klass_news_base_models(data):
         data[key][2] = import_string(data[key][2])
     return data
 
+
 NEWS_BASE_MODELS.update(import_klass_news_base_models(settings.NEWS_BASE_MODELS))
+
 
 def hexify(text):
     return "".join([str(hex(ord(x))).replace("0x", "") for x in text])
+
 
 def unhexify(text):
     if "@" in text:
         return text
     return "".join([chr(int(text[x] + text[x + 1], base=16))
                     for x in range(0, len(text), 2)])
+
 
 def _get_template(code):
     template = None
@@ -52,8 +56,9 @@ def _get_template(code):
         if template:
             break
     if template is None:
-        raise TemplateDoesNotExist()
+        raise TemplateDoesNotExist("Template %s not found"%code)
     return template
+
 
 def get_bcc_field(template, bcc):
     bcc = bcc or EXTRA_BCC
@@ -61,8 +66,9 @@ def get_bcc_field(template, bcc):
         if bcc is None:
             bcc = template.cc
         else:
-            bcc +=","+template.cc
+            bcc += "," + template.cc
     return bcc
+
 
 def get_cc_field(template, cc):
     cc = cc or EXTRA_CC
@@ -70,8 +76,9 @@ def get_cc_field(template, cc):
         if cc is None:
             cc = template.cc
         else:
-            cc +=","+template.cc
+            cc += "," + template.cc
     return cc
+
 
 def send_email_from_template(code, recipient,
                              context={},
@@ -80,7 +87,6 @@ def send_email_from_template(code, recipient,
                              upfile=None,
                              bcc=None,
                              cc=None):
-
     template = _get_template(code)
     if user is not None:
         context['user'] = user
@@ -91,8 +97,8 @@ def send_email_from_template(code, recipient,
     subject = Template(template.subject)
     message = Template(template.message)
     c = Context(context)
-    bcc=get_bcc_field(template, bcc)
-    cc=get_cc_field(template, cc)
+    bcc = get_bcc_field(template, bcc)
+    cc = get_cc_field(template, cc)
     email = EmailNotification(subject=subject.render(c),
                               message=message.render(c),
                               recipient=recipient,
@@ -121,24 +127,27 @@ def get_model(model_name):
     app_name, model = model_name.split(".")
     return apps.get_model(app_name, model)
 
+
 def register_model(name, kass, depth=2,
                    exclude=[], prefix=""):
     global NEWS_CONTEXT_ELEMENT
     if name not in NEWS_CONTEXT_ELEMENT:
         NEWS_CONTEXT_ELEMENT[name] = []
-    NEWS_CONTEXT_ELEMENT[name] += describe_class(kass,depth=depth, prefix=prefix, exclude=exclude)
+    NEWS_CONTEXT_ELEMENT[name] += describe_class(kass, depth=depth, prefix=prefix, exclude=exclude)
+
 
 def get_relation_class(field):
     if not field.is_relation:
         return None, None
 
-    related_name = field.related_name if hasattr(field,'related_name') else field.name
+    related_name = field.related_name if hasattr(field, 'related_name') else field.name
     if related_name is None:
-        related_name=field.related_model.__name__.lower()+'_set'
+        related_name = field.related_model.__name__.lower() + '_set'
     return field.related_model, related_name
 
+
 def describe_class(kass, prefix="", separator=".", exclude=[], depth=2, cdepth=0):
-    fields=kass._meta.get_fields()
+    fields = kass._meta.get_fields()
     cdepth += 1
     dev = []
     for field in fields:
@@ -153,13 +162,13 @@ def describe_class(kass, prefix="", separator=".", exclude=[], depth=2, cdepth=0
                 ])
         else:
             if relname:
-                name = prefix+relname
+                name = prefix + relname
             if relkass:
                 dev += describe_class(relkass,
-                              prefix=name+separator,
-                              separator=separator,
-                              exclude=exclude,
-                              depth=depth, cdepth=cdepth)
+                                      prefix=name + separator,
+                                      separator=separator,
+                                      exclude=exclude,
+                                      depth=depth, cdepth=cdepth)
     return dev
 
 
@@ -169,8 +178,10 @@ def get_newsletter_context(name):
         dev = NEWS_CONTEXT_ELEMENT[name]
     return dev
 
+
 def register_news_basemodel(modelname, description, kass):
-    NEWS_BASE_MODELS[modelname]=(modelname, description, kass)
+    NEWS_BASE_MODELS[modelname] = (modelname, description, kass)
+
 
 def get_basemodels_dict():
     dev = []
@@ -179,6 +190,7 @@ def get_basemodels_dict():
             (name, NEWS_BASE_MODELS[name][1])
         )
     return dev
+
 
 def get_basemodel_info(name):
     dev = []
