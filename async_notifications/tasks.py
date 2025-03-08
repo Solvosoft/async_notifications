@@ -1,11 +1,9 @@
 # encoding: utf-8
-'''
+"""
 Created on 20/12/2015
 
 @author: luisza
-'''
-
-from __future__ import unicode_literals
+"""
 
 from django.conf import settings
 from django.core import mail
@@ -26,13 +24,15 @@ def _send_email(obj, mails, bcc=None, cc=None):
     with mail.get_connection() as connection:
         if SMTP_DEBUG:
             connection.connection.set_debuglevel(1)
-        message = mail.EmailMessage(obj.subject, obj.message,
-                                    settings.DEFAULT_FROM_EMAIL,
-                                    mails,
-                                    bcc=bcc,
-                                    cc=cc,
-                                    connection=connection
-                                    )
+        message = mail.EmailMessage(
+            obj.subject,
+            obj.message,
+            settings.DEFAULT_FROM_EMAIL,
+            mails,
+            bcc=bcc,
+            cc=cc,
+            connection=connection,
+        )
         message.content_subtype = "html"
         if obj.file:
             if os.path.isfile(settings.MEDIA_ROOT + obj.file.name):
@@ -40,7 +40,7 @@ def _send_email(obj, mails, bcc=None, cc=None):
         try:
             message.send(fail_silently=False)
             send_ok = True
-            sent+=1
+            sent += 1
         except Exception as e:
             obj.problems = True
             obj.save()
@@ -53,13 +53,14 @@ def _send_email(obj, mails, bcc=None, cc=None):
         obj.save()
     return sent
 
+
 @app.task
 def send_email(obj):
     """
-    Envía un correo 
+    Envía un correo
     obj puede ser un pk o una instancia EmailNotification
     """
-    sent=0
+    sent = 0
     if not isinstance(obj, EmailNotification):
         try:
             obj = EmailNotification.objects.get(pk=obj)
@@ -68,8 +69,8 @@ def send_email(obj):
 
     if SEND_ONLY_EMAIL:
         mails = SEND_ONLY_EMAIL
-        bcc=None
-        cc=None
+        bcc = None
+        cc = None
     else:
         mails = list(get_all_emails(obj.recipient))
         bcc = list(get_all_emails(obj.bcc))
@@ -84,6 +85,7 @@ def send_email(obj):
 
     return sent
 
+
 @app.task
 def send_daily():
     sent = 0
@@ -93,8 +95,9 @@ def send_daily():
         except Exception as e:
             print(e)
             import traceback
+
             traceback.print_exc()
-    return "sent %d"%(sent,)
+    return "sent %d" % (sent,)
 
 
 @app.task

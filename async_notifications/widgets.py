@@ -1,49 +1,55 @@
 # encoding: utf-8
 
-'''
+"""
 Free as freedom will be 25/9/2016
 
 @author: luisza
-'''
+"""
 
-
-#from ajax_select.fields import (AutoCompleteSelectMultipleField,
+# from ajax_select.fields import (AutoCompleteSelectMultipleField,
 #                                AutoCompleteSelectMultipleWidget)
-#from django.core.exceptions import ValidationError
+# from django.core.exceptions import ValidationError
 from django.forms import Widget, SelectMultiple, forms
 
 
 class SelectTagifyWidget(Widget):
-    template_name='widgets/tagifyselect.html'
+    template_name = "widgets/tagifyselect.html"
 
     def build_attrs(self, base_attrs, extra_attrs=None):
         """Build an attribute dictionary."""
         dev = {**base_attrs, **(extra_attrs or {})}
-        dev['data-url']=self.base_url
-        dev['data-widget'] = 'TagifySelect'
+        dev["data-url"] = self.base_url
+        dev["data-widget"] = "TagifySelect"
         return dev
 
     @classmethod
     def newwidget(cls, url):
-        widget = type('SelectTagifyWidget', cls.__bases__, dict(cls.__dict__))
+        widget = type("SelectTagifyWidget", cls.__bases__, dict(cls.__dict__))
         widget.base_url = url
         return widget
 
     @property
     def media(self):
-        return forms.Media(css={'all': ('https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css',)},
-                           js=('https://cdn.jsdelivr.net/npm/@yaireo/tagify',
-                               'https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js',
-                               'async_notifications/tagify.js'))
+        return forms.Media(
+            css={
+                "all": ("https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css",)
+            },
+            js=(
+                "https://cdn.jsdelivr.net/npm/@yaireo/tagify",
+                "https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js",
+                "async_notifications/tagify.js",
+            ),
+        )
+
 
 class BaseAutocomplete:
     def get_context(self, name, value, attrs):
-        context = super().get_context(name,value,attrs)
-        context['url'] = self.base_url
+        context = super().get_context(name, value, attrs)
+        context["url"] = self.base_url
         return context
 
     def optgroups(self, name, value, attrs=None):
-        if value and value != ['']:
+        if value and value != [""]:
             self.choices.queryset = self.choices.queryset.filter(pk__in=value)
         else:
             self.choices.queryset = self.choices.queryset.none()

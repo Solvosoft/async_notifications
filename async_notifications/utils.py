@@ -1,14 +1,12 @@
 # encoding: utf-8
-from __future__ import unicode_literals
-
 import json
 import re
 
-'''
+"""
 Created on 20/12/2015
 
 @author: luisza
-'''
+"""
 
 from copy import deepcopy
 
@@ -18,7 +16,6 @@ from django.template import Context, Template
 from .models import EmailTemplate, EmailNotification
 from django.apps import apps
 from django.template.exceptions import TemplateDoesNotExist
-import six
 from . import settings
 from django.utils.module_loading import import_string
 
@@ -43,20 +40,21 @@ def hexify(text):
 def unhexify(text):
     if "@" in text:
         return text
-    return "".join([chr(int(text[x] + text[x + 1], base=16))
-                    for x in range(0, len(text), 2)])
+    return "".join(
+        [chr(int(text[x] + text[x + 1], base=16)) for x in range(0, len(text), 2)]
+    )
 
 
 def _get_template(code):
     template = None
-    if type(code) == six.text_type or type(code) == six.binary_type:
+    if isinstance(code, (str, bytes)):
         code = [code]
     for _code in code:
         template = EmailTemplate.objects.filter(code=_code).first()
         if template:
             break
     if template is None:
-        raise TemplateDoesNotExist("Template %s not found"%code)
+        raise TemplateDoesNotExist("Template %s not found" % code)
     return template
 
 
@@ -80,16 +78,19 @@ def get_cc_field(template, cc):
     return cc
 
 
-def send_email_from_template(code, recipient,
-                             context={},
-                             enqueued=True,
-                             user=None,
-                             upfile=None,
-                             bcc=None,
-                             cc=None):
+def send_email_from_template(
+    code,
+    recipient,
+    context={},
+    enqueued=True,
+    user=None,
+    upfile=None,
+    bcc=None,
+    cc=None,
+):
     template = _get_template(code)
     if user is not None:
-        context['user'] = user
+        context["user"] = user
 
     if type(recipient) is list or type(recipient) is tuple:
         recipient = ",".join(recipient)
@@ -99,13 +100,14 @@ def send_email_from_template(code, recipient,
     c = Context(context)
     bcc = get_bcc_field(template, bcc)
     cc = get_cc_field(template, cc)
-    email = EmailNotification(subject=subject.render(c),
-                              message=message.render(c),
-                              recipient=recipient,
-                              enqueued=enqueued,
-                              bcc=bcc,
-                              cc=cc
-                              )
+    email = EmailNotification(
+        subject=subject.render(c),
+        message=message.render(c),
+        recipient=recipient,
+        enqueued=enqueued,
+        bcc=bcc,
+        cc=cc,
+    )
     if user is not None:
         email.user = user
     if upfile is not None:
@@ -116,10 +118,12 @@ def send_email_from_template(code, recipient,
 
 def extract_emails(text):
     try:
-        mails = [item['value'] for item in json.loads(text)]
+        mails = [item["value"] for item in json.loads(text)]
     except Exception as e:
-        mails = list(re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', text))
-        mails += list(re.findall(r'\b[A-Za-z0-9._%+-]+@group', text))
+        mails = list(
+            re.findall(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", text)
+        )
+        mails += list(re.findall(r"\b[A-Za-z0-9._%+-]+@group", text))
     return mails
 
 
@@ -128,21 +132,22 @@ def get_model(model_name):
     return apps.get_model(app_name, model)
 
 
-def register_model(name, kass, depth=2,
-                   exclude=[], prefix=""):
+def register_model(name, kass, depth=2, exclude=[], prefix=""):
     global NEWS_CONTEXT_ELEMENT
     if name not in NEWS_CONTEXT_ELEMENT:
         NEWS_CONTEXT_ELEMENT[name] = []
-    NEWS_CONTEXT_ELEMENT[name] += describe_class(kass, depth=depth, prefix=prefix, exclude=exclude)
+    NEWS_CONTEXT_ELEMENT[name] += describe_class(
+        kass, depth=depth, prefix=prefix, exclude=exclude
+    )
 
 
 def get_relation_class(field):
     if not field.is_relation:
         return None, None
 
-    related_name = field.related_name if hasattr(field, 'related_name') else field.name
+    related_name = field.related_name if hasattr(field, "related_name") else field.name
     if related_name is None:
-        related_name = field.related_model.__name__.lower() + '_set'
+        related_name = field.related_model.__name__.lower() + "_set"
     return field.related_model, related_name
 
 
@@ -155,20 +160,29 @@ def describe_class(kass, prefix="", separator=".", exclude=[], depth=2, cdepth=0
         relkass, relname = get_relation_class(field)
         if cdepth == depth or relkass is None:
             if name not in exclude:
-                dev.append([
-                    name,
-                    field.verbose_name if hasattr(field, 'verbose_name') else field.name,
-                    field.help_text if hasattr(field, 'help_text') else ""
-                ])
+                dev.append(
+                    [
+                        name,
+                        (
+                            field.verbose_name
+                            if hasattr(field, "verbose_name")
+                            else field.name
+                        ),
+                        field.help_text if hasattr(field, "help_text") else "",
+                    ]
+                )
         else:
             if relname:
                 name = prefix + relname
             if relkass:
-                dev += describe_class(relkass,
-                                      prefix=name + separator,
-                                      separator=separator,
-                                      exclude=exclude,
-                                      depth=depth, cdepth=cdepth)
+                dev += describe_class(
+                    relkass,
+                    prefix=name + separator,
+                    separator=separator,
+                    exclude=exclude,
+                    depth=depth,
+                    cdepth=cdepth,
+                )
     return dev
 
 
@@ -186,9 +200,7 @@ def register_news_basemodel(modelname, description, kass):
 def get_basemodels_dict():
     dev = []
     for name in NEWS_BASE_MODELS:
-        dev.append(
-            (name, NEWS_BASE_MODELS[name][1])
-        )
+        dev.append((name, NEWS_BASE_MODELS[name][1]))
     return dev
 
 

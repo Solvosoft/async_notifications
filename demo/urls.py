@@ -13,15 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
-from async_notifications.markitup.views import preview_newsletter
 
+from async_notifications.markitup.views import preview_newsletter
 from demo.views import index
 
 urlpatterns = [
-    path('', index),
-    path('admin/', admin.site.urls),
-    path('notifications/', include('async_notifications.urls', namespace='async_notifications')),
-    path('markitup/preview', preview_newsletter, name="markitup_preview")
+    path("", index),
+    path("admin/", admin.site.urls),
+    path(
+        "notifications/",
+        include("async_notifications.urls", namespace="async_notifications"),
+    ),
+    path("markitup/preview", preview_newsletter, name="markitup_preview"),
 ]

@@ -1,4 +1,3 @@
-
 class NewsLetterInterface:
     name = ""
     field_map = {}
@@ -17,21 +16,23 @@ class NewsLetterInterface:
 
     def get_exclude(self):
         exclude = {}
-        excludeemail = self.form.cleaned_data.get('excludeemail', '')
+        excludeemail = self.form.cleaned_data.get("excludeemail", "")
         if excludeemail:
-            exclude[self.field_map['exclude']['excludeemail']] = excludeemail.replace(" ", '').split(',')
-            if not exclude[self.field_map['exclude']['excludeemail']][0]:
-                exclude[self.field_map['exclude']['excludeemail']].pop(0)
-            self.excludedata = set(exclude[self.field_map['exclude']['excludeemail']])
+            exclude[self.field_map["exclude"]["excludeemail"]] = excludeemail.replace(
+                " ", ""
+            ).split(",")
+            if not exclude[self.field_map["exclude"]["excludeemail"]][0]:
+                exclude[self.field_map["exclude"]["excludeemail"]].pop(0)
+            self.excludedata = set(exclude[self.field_map["exclude"]["excludeemail"]])
         return exclude
 
     def get_filters(self):
         filters = {}
         self.form.is_valid()
-        filterfields = self.field_map['filter'].keys()
+        filterfields = self.field_map["filter"].keys()
         for field in filterfields:
             if field in self.form.cleaned_data and self.form.cleaned_data[field]:
-                filters[self.field_map['filter'][field]] = self.form.cleaned_data[field]
+                filters[self.field_map["filter"][field]] = self.form.cleaned_data[field]
         return filters
 
     def get_queryset(self):

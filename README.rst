@@ -7,13 +7,12 @@ Features
 ---------
 
 - Celery integration
-- Administrative view 
+- Administrative view
 - Enqueued mail system and instantly send
 - Problems notification
 - User filter email
 - Template system with template context
 - Send to User, Group or external email
-- Django cms integration (djcms_async_notifications) and standalone.
 - Custom text area widget support
 - Allow send group mail list if it's defined.
 - Newsletter with model context, preview and extra email configuration
@@ -21,10 +20,10 @@ Features
 Installation
 =============
 
-#. Install from pip 
+#. Install from pip
 
     .. code:: bash
-    
+
         $ pip install async_notifications
 
 #. Add required apps in your settings **
@@ -46,7 +45,7 @@ Installation
             ...
             url(r'^async_notifications/', include('async_notifications.urls')),
         ]
-   
+
 #. It's really important set *CELERY_MODULE* pointing to your project celery file, because it's needed for assing task to the current project, and configure some default celery options
 
     .. code:: python
@@ -55,13 +54,13 @@ Installation
         CELERY_MODULE = "demo.celery"
         CELERY_TIMEZONE = TIME_ZONE
         CELERY_ACCEPT_CONTENT = ['json']
-        
+
 
 
 #. Configure your email settings, e.g for development
 
     .. code:: python
-    
+
         DEFAULT_FROM_EMAIL="mail@example.com"
         EMAIL_HOST="localhost"
         EMAIL_PORT="1025"
@@ -82,10 +81,10 @@ Installation
 
 Remember use  demo/__init__.py to update your projectfolder/__init__.py.
 
-#. Run migrations 
+#. Run migrations
 
     .. code:: bash
-    
+
         $ python manage.py migrate
 
 
@@ -97,25 +96,25 @@ You need to run 3 subsystems for run this app so you need 3 xterm, for this expl
 1. Run smtp debug client
 
     .. code:: bash
-    
-        $ python -m smtpd -n -c DebuggingServer localhost:1025 
+
+        $ python -m smtpd -n -c DebuggingServer localhost:1025
 
 2. Run celery, if you aren't setup celery yet see `celery documentation <http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html>`_.
 
     .. code:: bash
 
         $ celery -A demo worker -l info -B
-        
+
 3. Run django
 
     .. code:: bash
-    
+
         $ python manage.py runserver
 
 Usage
 =========
 
-Report your context template 
+Report your context template
 
 .. code:: python
 
@@ -127,12 +126,12 @@ Report your context template
     ]
     update_template_context("yourcode",  'your email subject', context )
 
-This automátically create a Email template if not found. 
+This automátically create a Email template if not found.
 
-Context is list of tuples with the fields available in the template context, this context is add in the same file 
+Context is list of tuples with the fields available in the template context, this context is add in the same file
 that have `send_email_from_template`
 
-Using with django templates 
+Using with django templates
 
 .. code:: python
 
@@ -140,7 +139,7 @@ Using with django templates
 
 Send dict as context is now available, but remember that you can not repit keys in dict so use with precaution.
 
-Send an email :) 
+Send an email :)
 
 .. code:: python
 
@@ -158,16 +157,16 @@ Params description:
 - `user` user how send email
 - `upfile` attached file in email
 
-Other optional options 
+Other optional options
 ========================
 
 Adding context dummy object
 ----------------------------
 
 When you need to pass a default template message base on template, but you have not the template object
-and also you need to write the object with django template sintaxis you can use DummyContextObject that 
+and also you need to write the object with django template sintaxis you can use DummyContextObject that
 return always something like {{ myobj.attr1.objattr }}
-    
+
 .. code:: python
 
     from async_notifications.register import update_template_context, DummyContextObject
@@ -227,7 +226,7 @@ To create a new manager you need to create a class like
         model = Model
         form = Filter form class
 
-Take a look to NewsLetterInterface to know what methods you need to overwrite      
+Take a look to NewsLetterInterface to know what methods you need to overwrite
 
 Django cms integration
 -------------------------
@@ -276,7 +275,7 @@ cmsplugin-contact-plus
 CONTACT_PLUS_SEND_METHOD = 'async_notifications.djcms_async_notifications.contact_plus.send_email'
 ASYNC_NOTIFICATION_CONTACT_PLUS_EMAIL = 'email'
 
-.. note:: 
+.. note::
 
     This requires special cmsplugin-contact-plus version, we send a PRs, but is not merged yet.
 
@@ -287,7 +286,7 @@ For example using ckeditor widget
 
 ASYNC_NOTIFICATION_TEXT_AREA_WIDGET = 'ckeditor.widgets.CKEditorWidget'
 
-.. note:: 
+.. note::
     See how to configure `CKEditor <https://github.com/django-ckeditor/django-ckeditor>`_ .
 
 
