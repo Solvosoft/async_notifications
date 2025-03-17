@@ -16,16 +16,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from djgentelella.urls import urlpatterns as djgentelellaurls
 
-from async_notifications.markitup.views import preview_newsletter
-from demo.views import index
 
-urlpatterns = [
-    path("", index),
+urlpatterns = djgentelellaurls + [
+    path("", include("demoapp.urls")),
     path("admin/", admin.site.urls),
     path(
         "notifications/",
         include("async_notifications.urls", namespace="async_notifications"),
     ),
-    path("markitup/preview", preview_newsletter, name="markitup_preview"),
 ]

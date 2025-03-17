@@ -1,0 +1,14 @@
+{% extends 'gentelella/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<a href="?notify=1" class="btn btn-success">{% trans 'Send notification' %} </a>
+<h3>{% trans 'Useful links' %}</h3>
+<ul class="list-group list-group-flush">
+	<li class="list-group-item"><a href="{% url 'async_notifications:email_notification' %}">
+		{% trans 'Email Notification' %}</a></li>
+	<li class="list-group-item"><a href="{% url 'async_notifications:email_template' %}">{% trans 'Email Template' %}</a>
+	</li>
+	<li class="list-group-item">A third item</li>
+</ul>
+{% endblock %}

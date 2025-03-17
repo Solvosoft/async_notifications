@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from async_notifications.tasks import send_email, task_send_newsletter
-from .forms import NotificationForm, TemplateForm, NewsLetterForm, NewsLetterAdminForm
+from .forms import NotificationForm, TemplateForm, NewsLetterForm
 from .models import (
     EmailNotification,
     EmailTemplate,
@@ -172,7 +172,6 @@ class NewsLetterAdmin(admin.ModelAdmin):
 
 class NewsLetterTemplateAdmin(admin.ModelAdmin):
     prepopulated_fields = {"name": ("title",)}
-    form = NewsLetterAdminForm
 
 
 admin.site.register(EmailTemplate, EmailTemplateAdmin)

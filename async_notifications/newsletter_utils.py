@@ -4,15 +4,13 @@ from django.conf import settings
 from django.core import mail
 from django.http import QueryDict
 from django.template import Context, Template
-from markitup.markup import filter_func
-
 from async_notifications import settings as asettings
 from async_notifications.models import NewsLetter, NewsLetterTask
 from async_notifications.models import NewsLetterTemplate
 from async_notifications.utils import get_basemodel_info
 from .settings import SMTP_DEBUG
 
-
+filter_func = lambda x:x
 def render_template_newsletter(data):
     markup = filter_func(data)
     try:

@@ -9,18 +9,19 @@ Free as freedom will be 25/9/2016
 
 from django import forms
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
+from djgentelella.forms.forms import GTForm
+from djgentelella.widgets import core as genwidgets
+from djgentelella.widgets.tagging import (
+    EmailTaggingInput,
+    RemoteAutocompleteEmailTagifyWidget,
+)
 
 from .models import EmailNotification, EmailTemplate, NewsLetter, NewsLetterTemplate
 from .settings import TEXT_AREA_WIDGET, NEWSLETTER_WIDGET
 from .utils import get_basemodels_dict
-from .widgets import EmailLookup, SelectTagifyWidget
 
 
-# from ajax_select.fields import AutoCompleteSelectMultipleField
-
-
-class NotificationForm(forms.ModelForm):
+class NotificationForm(GTForm, forms.ModelForm):
     class Meta:
         model = EmailNotification
         fields = (
@@ -35,35 +36,47 @@ class NotificationForm(forms.ModelForm):
             "file",
         )
         widgets = {
-            "message": TEXT_AREA_WIDGET,
-            "recipient": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
-            ),
-            "bcc": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
-            ),
-            "cc": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
-            ),
+            "subject": genwidgets.TextInput,
+            "enqueued": genwidgets.YesNoInput,
+            "sent": genwidgets.YesNoInput,
+            "problems": genwidgets.YesNoInput,
+            "message": genwidgets.Textarea,
+            "recipient": EmailTaggingInput,  # ("async_notifications:contact"),
+            "bcc": EmailTaggingInput,  # ("async_notifications:contact"),
+            "cc": EmailTaggingInput,  # ("async_notifications:contact"),
+            "file": genwidgets.FileInput,
         }
 
 
-class TemplateForm(forms.ModelForm):
+class TemplateForm(GTForm, forms.ModelForm):
+    default_render_type = "as_grid"
+    grid_representation = [
+        [["code"], ["subject"]],
+        [["bcc"], ["cc"]],
+        [["email_context"]],
+        [["message"]],
+    ]
+
+    def email_context(self):
+        return "Hola"
+
     class Meta:
         model = EmailTemplate
         fields = ("code", "subject", "message", "bcc", "cc")
         widgets = {
+            "code": genwidgets.TextInput,
+            "subject": genwidgets.TextInput,
             "message": TEXT_AREA_WIDGET,
-            "bcc": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
+            "bcc": RemoteAutocompleteEmailTagifyWidget.newwidget(
+                reverse_lazy("async_notifications:email_to_tagify")
             ),
-            "cc": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
+            "cc": RemoteAutocompleteEmailTagifyWidget.newwidget(
+                reverse_lazy("async_notifications:email_to_tagify")
             ),
         }
 
 
-class NewsLetterForm(forms.ModelForm):
+class NewsLetterForm(GTForm, forms.ModelForm):
 
     class Meta:
         model = NewsLetter
@@ -79,28 +92,19 @@ class NewsLetterForm(forms.ModelForm):
         )
         widgets = {
             "message": NEWSLETTER_WIDGET,
-            "recipient": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
+            "recipient": RemoteAutocompleteEmailTagifyWidget.newwidget(
+                reverse_lazy("async_notifications:email_to_tagify")
             ),
-            "bcc": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
+            "bcc": RemoteAutocompleteEmailTagifyWidget.newwidget(
+                reverse_lazy("async_notifications:email_to_tagify")
             ),
-            "cc": SelectTagifyWidget.newwidget(
-                reverse_lazy("async_notifications:api_emails")
+            "cc": RemoteAutocompleteEmailTagifyWidget.newwidget(
+                reverse_lazy("async_notifications:email_to_tagify")
             ),
         }
 
-    class Media:
-        css = {
-            "all": ["//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"]
-        }
-        js = [
-            "//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js",
-            "async_notifications/previewupdater.js",
-        ]
 
-
-class NewsLetterAdminForm(forms.ModelForm):
+class NewsLetterTemplateForm(GTForm, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         dev = super().__init__(*args, **kwargs)
         self.fields["model_base"] = forms.ChoiceField(
@@ -113,5 +117,11 @@ class NewsLetterAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class TagifyFormValue(forms.Form):
+class NewsLetterTaskForm(GTForm, forms.ModelForm):
+    class Meta:
+        model = NewsLetter
+        fields = "__all__"
+
+
+class TagifyFormValue(GTForm, forms.Form):
     value = forms.CharField()
